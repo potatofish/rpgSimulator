@@ -57,11 +57,20 @@ As what makes a game is outlined below, formatting is as follows:
 * __`Concept`__: a noun signifying knowledge the framework will replicate
 * _`action`_:  a verb signifying functionality the framework will replicate.
 
+### Definitions
 With these two things in mind, this project attempts to distills playing a game down into the following statment:
 
-> _`playing`_ a __`Game`__ is the function of __`Users`__ interacting with the __`Actions`__ and __`Concepts`__ of the __`Game`__ 
+> A __`Game`__ is a __`System`__ of __`Concepts`__ and __`Actions`__ that can be interacted with by __`Users`__. 
 
-For understanding this keep in mind, an _`action`_ is the _`execution`_ of an __`Action`__. 
+>  This interaction is called _`playing`_.
+
+> _`playing`_ consists of a __`User`__ 
+> * _`providing input`_ on which __`Action`__ to execute
+> * _`providing input`_ on the arguments (__`Concepts`__, __`Actions`__, __`Users`__) for this __`Action`__ 
+> * _`executing`_ the __`Function`__ of the __`Action`__ with the input
+
+> An instance of _`playing`_ a __`Game`__ is called a __`Session`__.
+
 
 | Glossary | Type | Description |
 |:------------:|:---:|:-------|
@@ -69,18 +78,45 @@ For understanding this keep in mind, an _`action`_ is the _`execution`_ of an __
 | __`Concept`__ | Object | Any __`Rule`__ or __`Aim`__ of the __`Game`__. Any __`Tools`__ required to play the game. Any meta-knowledge required understand ( i.e.   __`this`__ ) |
 | __`User`__ | Choice | Anything that can execute an __`Action`__ when a __`Game`__ _`prompts`_ for input during a __`Session`__ of _`play`_. Additionally, a __`Session`__ of a __`Game`__ is _`started`_ by a __`User`__ |
 
+### Examples 
 
-| _`playing`_ : __`Users`__ interacting with the Actions and concepts of a game
-</tr></table>
+#### Example #1 - Baseball
+| Term | Some Examples |
+|:------------:|:-------|
+| __`Action`__ | atPlate, hit, throw, catch, touch (player), touch (base), walk, homerun |
+| __`Concept`__ | Ball {typeOf Tool}, Ball {typeOf Call}, Bat, Bases, Call, Foul, Inning, Out, Run, Out, |
+| __`User`__ | Coach, Pitcher, Player, Baseman, Out-Fielder, Batter, Catcher, Umpire  |
 
-This interaction is the key functionality to _`playing`_ a game.
+#### Example #2 - Monopoly
+| Term | Some Examples |
+|:------------:|:-------|
+| __`Action`__ | trade, rent, roll, auction, mortgage, bankrupt |
+| __`Concept`__ | Money, Property, Jail, Board, Square (element of Board), Hotel, Houses, Dice, Token |
+| __`User`__ | Game Piece: {Shoe, Iron, Car, etc}, Banker, Realtor  |
+
+#### Example #3 - Super Mario Bros.
+| Term | Some Examples |
+|:------------:|:-------|
+| __`Action`__ | jump, land, kill, damage, collect, descend |
+| __`Concept`__ | Coins, Enemies, Power-Up, Environmental Hazards, Platforms, Flag Pole, Bridge Axe, Sprites |
+| __`User`__ | Mario, Luigi  |
+
+#### Example #4 - Dungeons and Dragons
+| Term | Some Examples |
+|:------------:|:-------|
+| __`Action`__ | create character, level, attack, defend, lift bars, turn undead, cast spell, roll, save against |
+| __`Concept`__ | Characters, Roles, Dice, Abilities, Environment |
+| __`User`__ | Player Characters, Referee/Dungeon Master/Games Master  |
 
 
-Generalized games are:
-* Games are a System of rules
-* Games are interacted with by users through the act of _playing_ a Session using the
-* All Users that play a game are thus called Players
-* Games begins play by beginning a Session (instance of playing)
+### Other Key Generalizations
+
+Beyond the loose generalization above, there are key elements that are true for games that are not as evident.
+
+Platform
+
+Phase
+
 * Sessions are played on a Platform (real, virtual, imaginary)
 * Players join the Platform at the beginning of a Session
 * Sessions begin when enough Players have joined
@@ -93,9 +129,6 @@ Generalized games are:
 * Players make moves until the Session end condition is met 
 * Session end condition is defined by the system
 
-|  Actions  | Nouns |
-|:---------:|:-----:|
-| _playing_ | |
 
 ## References
 ---
