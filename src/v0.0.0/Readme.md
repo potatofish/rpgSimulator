@@ -64,12 +64,14 @@ With these two things in mind, this project attempts to distills playing a game 
 
 >  This interaction is called _`playing`_.
 
-> _`playing`_ consists of a __`User`__ 
-> * _`providing input`_ on which __`Action`__ to execute
-> * _`providing input`_ on the arguments (__`Concepts`__, __`Actions`__, __`Users`__) for this __`Action`__ 
-> * _`executing`_ the __`Function`__ of the __`Action`__ with the input
+> _`playing`_ consists of a __`User`__ that
+> 1) _`choses`_ which __`Action`__ to execute
+> 2) _`provides`_ the arguments (__`Concepts`__, __`Actions`__, __`Users`__) for this __`Action`__ 
+> 3) _`executes`_ the chosen __`Action`__ with the arguments _`provided`_
 
-> An instance of _`playing`_ a __`Game`__ is called a __`Session`__.
+> An instance of __`Users`__ _`playing`_ a __`Game`__ is called a __`Session`__.
+
+> _`Sessions`_ are _`started`_ by a single __`User`__, but may be _`joined`_ by others.
 
 
 | Glossary | Type | Description |
@@ -92,14 +94,14 @@ With these two things in mind, this project attempts to distills playing a game 
 |:------------:|:-------|
 | __`Action`__ | trade, rent, roll, auction, mortgage, bankrupt |
 | __`Concept`__ | Money, Property, Jail, Board, Square (element of Board), Hotel, Houses, Dice, Token |
-| __`User`__ | Game Piece: {Shoe, Iron, Car, etc}, Banker, Realtor  |
+| __`User`__ | Player, Banker, Realtor  |
 
 #### Example #3 - Super Mario Bros.
 | Term | Some Examples |
 |:------------:|:-------|
 | __`Action`__ | jump, land, kill, damage, collect, descend |
 | __`Concept`__ | Coins, Enemies, Power-Up, Environmental Hazards, Platforms, Flag Pole, Bridge Axe, Sprites |
-| __`User`__ | Mario, Luigi  |
+| __`User`__ | Controller 1, Controller 2  |
 
 #### Example #4 - Dungeons and Dragons
 | Term | Some Examples |
@@ -109,25 +111,6 @@ With these two things in mind, this project attempts to distills playing a game 
 | __`User`__ | Player Characters, Referee/Dungeon Master/Games Master  |
 
 
-### Other Key Generalizations
-
-Beyond the loose generalization above, there are key elements that are true for games that are not as evident.
-
-Platform
-
-Phase
-
-* Sessions are played on a Platform (real, virtual, imaginary)
-* Players join the Platform at the beginning of a Session
-* Sessions begin when enough Players have joined
-* Each Session breaks play into Phases
-* Phases may break down into other Phases
-* Each Phase may have different rules
-* Systems may have rules that apply to all Phases
-* Characters are fielded to the Tabletop by seated Players
-* Players without Characters may create from the System rules
-* Players make moves until the Session end condition is met 
-* Session end condition is defined by the system
 
 
 ## References
