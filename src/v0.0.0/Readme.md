@@ -111,7 +111,9 @@ With these two things in mind, this project attempts to distills playing a game 
 | __`User`__ | Player Characters, Referee/Dungeon Master/Games Master  |
 
 
-
+## Design
+* Object Managers 
+    * Systems need to be able to manage the actions, concepts, and 
 
 ## References
 ---

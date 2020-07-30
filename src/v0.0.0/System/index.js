@@ -1,5 +1,5 @@
-require('Action');
-require('Concept');
+require('ActionManager');
+require('ConceptManager');
 require('User');
 require('Session');
 
@@ -7,21 +7,16 @@ require('Session');
 class System {
     constructor(config) {
         console.log("Class System", config);
-        this.#actions = [];
-        this.#concepts = [];
-        this.#users = [];
+        this.#actionManager = new ActionManager();
+        this.#conceptManager = new ConceptManager();
     }
 
     get actions() {
-        return this.#actions
+        return this.#actionManager.list();
     }
 
     get concepts() {
-        return this.#concepts
-    }
-
-    get users() {
-        return this.#users
+        return this.#conceptManager.list();
     }
 
     spawnSession() {
@@ -30,8 +25,8 @@ class System {
 
     add(value) {
         switch (true) {
-            case (value instanceof Action):
-                this.#actions.push(value)
+            case (ActionManager.isAction(value)):
+                this.#actions.manage(value);
                 return;
             case (value instanceof Concept):
                 this.#concepts.push(value)
@@ -45,7 +40,19 @@ class System {
     }
     
     remove(value) {
-
+        switch (true) {
+            case (value instanceof Action):
+                this.#actions.splice(this.#actions.indexOf(value),1)
+                return;
+            case (value instanceof Concept):
+                this.#concepts.splice(this.#concepts.indexOf(value),1)
+                return;
+            case (value instanceof User):
+                this.#users.splice(this.#users.indexOf(value),1)
+                return;
+            default:
+                throw `Unknown type: ${value}`
+        }
     }
 }
 
