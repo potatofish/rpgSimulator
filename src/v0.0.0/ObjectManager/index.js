@@ -3,6 +3,10 @@ class ObjectManager {
         this._managedObjects = {};
     }
 
+    create(config) {
+        let newObject = this._objectFactory.create(config);
+        return newObject;
+    }
 
     add(object) {
         let counter = 0

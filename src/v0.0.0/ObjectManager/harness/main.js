@@ -12,8 +12,7 @@ objectManager.add(foo);
 //console.log({om: objectManager});
 objectManager.add(foo);
 objectManager.add("Bar");
-
-let initial
+objectManager
 
 console.log({om: objectManager, list: objectManager.list, size: objectManager.size, keys: objectManager.keys});
 
