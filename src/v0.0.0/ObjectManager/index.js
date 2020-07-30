@@ -27,7 +27,6 @@ class ObjectManager {
 
     atKey(key) {
         return this._managedObjects[key]
-
     }
 
     keysOf(object) {

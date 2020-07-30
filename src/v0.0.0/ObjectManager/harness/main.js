@@ -6,15 +6,23 @@ const ObjectManager = require('../../ObjectManager');
 
 let objectManager = new ObjectManager();
 
-objectManager.add("Foo");
+
+let foo = "Foo"
+objectManager.add(foo);
 //console.log({om: objectManager});
-objectManager.add("Foo");
+objectManager.add(foo);
 objectManager.add("Bar");
 
-let {list, size, keys} = objectManager;
-console.log({list});
-console.log({size});
-console.log({keys});
+let initial
 
-console.log({om: objectManager});
+console.log({om: objectManager, list: objectManager.list, size: objectManager.size, keys: objectManager.keys});
+
+console.log({atKey: objectManager.atKey(objectManager.keys[2])});
+
+objectManager.remove(objectManager.keys[2])
+console.log({om: objectManager, list: objectManager.list, size: objectManager.size, keys: objectManager.keys});
+
+console.log({keysOf: objectManager.keysOf(foo)});
+
+
 
