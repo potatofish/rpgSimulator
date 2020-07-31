@@ -8,20 +8,23 @@ let objectManager = new ObjectManager();
 
 
 let foo = "Foo"
-objectManager.add(foo);
+objectManager.manage(foo);
 //console.log({om: objectManager});
-objectManager.add(foo);
-objectManager.add("Bar");
-objectManager
+objectManager.manage(foo);
+objectManager.manage("Bar");
+
+objectManager.seed = function() {return "MEWO"};
+objectManager.manage("BMO");
+
 
 console.log({om: objectManager, list: objectManager.list, size: objectManager.size, keys: objectManager.keys});
 
 console.log({atKey: objectManager.atKey(objectManager.keys[2])});
 
-objectManager.remove(objectManager.keys[2])
+objectManager.release(objectManager.keys[2])
 console.log({om: objectManager, list: objectManager.list, size: objectManager.size, keys: objectManager.keys});
 
-console.log({keysOf: objectManager.keysOf(foo)});
+console.log({keysOfFoo: objectManager.keysOf(foo)});
 
 
 

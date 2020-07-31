@@ -1,20 +1,24 @@
+const ObjectFactory = require('../ObjectFactory');
+
 class ObjectManager {
-    constructor(adder, remover) {   
+    constructor() {   
         this._managedObjects = {};
+        this._keySeedingFunction = Date.now;
+        this._objectFactory = new ObjectFactory()
     }
 
-    create(config) {
-        let newObject = this._objectFactory.create(config);
+    create() {
+        let newObject = this._objectFactory.create();
         return newObject;
     }
 
-    add(object) {
+    manage(object) {
         let counter = 0
-        let timestampMS = Date.now();
-        let propertyKey = timestampMS + "-" + counter;
+        let seededKey = this.seed();
+        let propertyKey = seededKey + "-" + counter;
         while(this._managedObjects[propertyKey] !== undefined) {
-            propertyKey = timestampMS+ "-" + counter++;
-            console.log({propertyKey});
+            propertyKey = seededKey + "-" + counter++;
+            //console.log({propertyKey});
         }
         
         this._managedObjects[propertyKey] = object;
@@ -23,7 +27,7 @@ class ObjectManager {
         return result;
     }
 
-    remove(key) {
+    release(key) {
         let deletedObject = this._managedObjects[key];
         delete this._managedObjects[key];
         return deletedObject
@@ -57,6 +61,18 @@ class ObjectManager {
 
     get keys() {
         return Object.keys(this._managedObjects);
+    }
+
+    set seed(seeder) {
+        if (typeof seeder !== "function") {
+            throw "argument is not function"
+        }s
+        //console.log("setseeder: %s", seeder);
+        this._keySeedingFunction = seeder
+    }
+
+    seed() {
+        return `${this._keySeedingFunction()}`
     }
 }
 

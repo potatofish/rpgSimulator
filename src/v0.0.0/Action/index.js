@@ -1,8 +1,6 @@
-class Action {
-    constructor(config) {
-        console.log("Hello World: Action", config);
+//*jshint node: true, esversion: 9*/
+"use strict";
 
-    }
-}
-
-module.exports = Action;
+exports.Action = require("./Action");
+exports.ActionFactory = require("./ActionFactory");
+exports.ActionManager = require("./ActionManager");
