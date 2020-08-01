@@ -1,8 +1,6 @@
-class Concept {
-    constructor(config) {
-        console.log("Hello World: Concept", config);
+//*jshint node: true, esversion: 9*/
+"use strict";
 
-    }
-}
-
-module.exports = Concept;
+exports.Concept = require("./Concept");
+exports.ConceptFactory = require("./ConceptFactory");
+exports.ConceptManager = require("./ConceptManager");

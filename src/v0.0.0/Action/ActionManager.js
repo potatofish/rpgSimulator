@@ -6,8 +6,8 @@ const ActionFactory = require('./ActionFactory');
 
 class ActionManager extends ObjectManager {
     constructor(config) {
-        super(config)
-        this._objectFactory = new ActionFactory()
+        super(config);
+        this._objectFactory = new ActionFactory();
     }
 
     create(name, method) {
