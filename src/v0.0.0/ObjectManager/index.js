@@ -8,7 +8,8 @@ class ObjectManager {
     }
 
     create() {
-        let newObject = this._objectFactory.create();
+        console.log("OM create from factory: %s", this._objectFactory);
+        let newObject = this._objectFactory.create.apply(null, arguments);
         return newObject;
     }
 
