@@ -11,7 +11,7 @@ class ActionManager extends ObjectManager {
     }
 
     create(name, method) {
-        console.log(`AM Creation: ${name} : %s`, method);
+        //console.log(`AM Creation: ${name} : %s`, method);
         return super.create(name, method)
     }
     
