@@ -1,6 +1,6 @@
 class ObjectFactory {
     constructor(config) { 
-        console.log("ObjectFactory Made");
+        //console.log("ObjectFactory Made");
         this._config = config;
     }
 

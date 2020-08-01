@@ -12,7 +12,7 @@ class Action {
     #actionableFunction;
     
     constructor(name, aFunction) {
-        console.log(`Action Creation: ${name} %s`, aFunction);
+        //console.log(`Action Creation: ${name} %s`, aFunction);
         if (typeof aFunction !== "function") {
             throw "Action: argument is not executable" + aFunction
         }
@@ -30,8 +30,6 @@ class Action {
     }
 
     execute() {
-        console.log({arguments});
-        console.log("#af: %s", this.#actionableFunction);
         return this.#actionableFunction.apply(null, arguments)
     }
 }

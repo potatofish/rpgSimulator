@@ -7,14 +7,14 @@ const Action = require("../Action")
 
 let actionFactory = new ActionFactory();
 
-console.log({actionFactory, typeof: typeof actionFactory, isActionFactory: actionFactory instanceof ActionFactory});
+//console.log({actionFactory, typeof: typeof actionFactory, isActionFactory: actionFactory instanceof ActionFactory});
 
 //console.log("%s", ActionFactory);
 
 
 let action = actionFactory.create();
 
-console.log({action, typeof: typeof action, isAction: action instanceof Action});
+//console.log({action, typeof: typeof action, isAction: action instanceof Action});
 
 
 const ActionManager = require('../ActionManager');
@@ -22,7 +22,7 @@ const ActionManager = require('../ActionManager');
 
 let actionManager = new ActionManager();
 
-console.log("%s", actionManager.seed);
+//console.log("%s", actionManager.seed);
 
 
 let foo = "Foo"
@@ -38,14 +38,14 @@ actionManager.manage("Bar");
 actionManager.manage("BMO");
 
 
-console.log({om: actionManager, list: actionManager.list, size: actionManager.size, keys: actionManager.keys});
+//console.log({om: actionManager, list: actionManager.list, size: actionManager.size, keys: actionManager.keys});
 
-console.log({atKey: actionManager.atKey(actionManager.keys[2])});
+//console.log({atKey: actionManager.atKey(actionManager.keys[2])});
 
 actionManager.release(actionManager.keys[2])
-console.log({om: actionManager, list: actionManager.list, size: actionManager.size, keys: actionManager.keys});
+//console.log({om: actionManager, list: actionManager.list, size: actionManager.size, keys: actionManager.keys});
 
-console.log({keysOfFoo: actionManager.keysOf(foo)});
+//console.log({keysOfFoo: actionManager.keysOf(foo)});
 
 const roll = function (volume, sides) {
     function getRandomInt(max) {
