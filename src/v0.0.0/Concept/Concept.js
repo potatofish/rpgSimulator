@@ -11,11 +11,11 @@
 
 class Concept {
     #name
-    #element
+    #meaning
     
-    constructor(name, element) {
+    constructor(name, meaning) {
        this.#name = `${name}`;
-       this.#element = element;
+       this.#meaning = meaning;
 
     }
 
@@ -27,9 +27,10 @@ class Concept {
         this.#name = `${aName}`;
     }
 
-    get element() {
-        return this.#element;
+    get meaning() {
+        return this.#meaning;
     }
+    
 }
 
 module.exports = Concept;

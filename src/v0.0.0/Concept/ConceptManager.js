@@ -10,10 +10,6 @@ class ConceptManager extends ObjectManager {
         this._objectFactory = new ConceptFactory();
     }
 
-    create(name, element) {
-        return super.create(name, element);
-    }
-
     seed() {
         let prefix = "CONCEPT-"
         let seed = super.seed();
