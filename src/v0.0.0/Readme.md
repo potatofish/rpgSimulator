@@ -115,6 +115,58 @@ With these two things in mind, this project attempts to distills playing a game 
 * Object Managers 
     * Systems need to be able to manage the actions, concepts, and 
 
+## Acceptance Test
+Model a basic game in engine, Tic Tac Toe
+
+Tools
+* an unmarked 3x3 Grid
+* a Marker to fill Grid with X
+* a Marker to fill Grid with O
+
+#### Rules 
+----
+<center><sup>"\[a\] rule identifies a _necessary condition_ for permissible action."</sup></center>
+
+A __necessary condition__ is a one that must be present for an event to occur. 
+
+A __permissible action__ is an action that can be taken as part of playing the game
+
+- __Rules are the conditions that are necessary to make actions available to players__
+
+-  ___Rules for Tic Tac Toe___
+    1.  An empty 3x3 grid is necessary for playing the game
+    2.  Two players are necessary for playing the game
+    3.  Each player must chose a unique icon (traidionally X & O)
+    4.  Both players must decide who is the first active player
+    5.  Active player must mark their icon in an empty grid square
+    6.  Active player must pass active player status to the other player 
+
+
+* Play begins with picking the initial active player.
+* Players must alternate marking on the grid with their marker
+* Play ends when 3 of the same mark occur in a line on the grid
+    * Declare player whose mark occurs 3 times in a line "WINNER"
+    * Declare other player "LOSER"
+* Play ends when there are no unmarked grid spaes
+    * Declare both players have "TIED"
+
+Aims - an aim identifies a _sufficient condition_ for successful action
+- A _sufficient condition_ is a condition or set of conditions that will produce the event.
+* 
+* Aims are the conditions that are necessary for resulting in a sucess. 
+
+* Be declared "WINNER"
+* Avoid being declared "LOSER"
+    * Prevent other player from being declared "WINNER"
+* Avoid being declared "TIED"
+* Mark a square on the board
+* Pick a marker
+* Decide on play order
+
+
+
+
+
 ## References
 ---
 <sup>[1]</sup> Game, "From Wikipedia, the free encyclopedia", @ [wikipedia.org/wiki/Game](https://en.wikipedia.org/wiki/Game): 2020-07-28-1627-UTC
