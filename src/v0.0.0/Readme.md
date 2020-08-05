@@ -123,18 +123,22 @@ Tools
 * a Marker to fill Grid with X
 * a Marker to fill Grid with O
 
-#### Rules 
+#### Rules & Aims
 ----
-<center><sup>"\[a\] rule identifies a _necessary condition_ for permissible action."</sup></center>
+<center><sup>"[a] rule identifies a _necessary condition_ for permissible action."</sup>
+</br><sup>an aim identifies a _sufficient condition_ for successful action </sup></center>
 
-A __necessary condition__ is a one that must be present for an event to occur. 
+https://en.wikipedia.org/wiki/Necessity_and_sufficiency
 
-A __permissible action__ is an action that can be taken as part of playing the game
+A __necessary _condition___ is a one that must be present for an event to occur. 
 
-- __Rules are the conditions that are necessary to make actions available to players__
+
+A __permissible _action___ is an on that can be taken as part of playing the game
+
+THUS:  
 
 -  ___Rules for Tic Tac Toe___
-    1.  An empty 3x3 grid is necessary for playing the game
+    1.  An empty 3x3 grid is necessary for playing the game. 
     2.  Two players are necessary for playing the game
     3.  Each player must chose a unique icon (traidionally X & O)
     4.  Both players must decide who is the first active player
