@@ -144,6 +144,8 @@ Per - https://en.wikipedia.org/wiki/Necessity_and_sufficiency
     * the expression represented by `S` is called the ***antecedent***
     the expression represented by `N` is called the ***consequent***.
 
+</td></tr><tr><td>
+∴ a Rule
 </td></tr>
 </table>
 
