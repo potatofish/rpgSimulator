@@ -122,13 +122,39 @@ Tools
 * an unmarked 3x3 Grid
 * a Marker to fill Grid with X
 * a Marker to fill Grid with O
+## Design
+---
+Design work documentation...
 
-#### Rules & Aims
-----
-<center><sup>"[a] rule identifies a _necessary condition_ for permissible action."</sup>
-</br><sup>an aim identifies a _sufficient condition_ for successful action </sup></center>
+<table><tr><td>
 
-https://en.wikipedia.org/wiki/Necessity_and_sufficiency
+### Rules & Aims
+</td></tr><tr><td>
+
+##### * \[a\] rule identifies a _necessary condition_ for permissible action.
+##### * an aim identifies a _sufficient condition_ for successful action
+
+</td></tr><tr><td>
+
+Per - https://en.wikipedia.org/wiki/Necessity_and_sufficiency
+* <span style="color:lightblue">necessity</span> and <span style="color:lightgreen">sufficiency</span> are terms used to describe a conditional or implicational relationship between two statements
+* a <span style="color:lightblue">necessary</span> condition is one which must be present in order for another condition to occur
+* a <span style="color:lightgreen">sufficient</span> condition is one which produces the said condition
+* In the conditional statement, `if S, then N`, 
+    * the expression represented by `S` is called the <span style="color:orange">antecedent</span>
+    the expression represented by `N` is called the <span style="color:lightpink">consequent</span>.
+
+</td></tr>
+</table>
+
+ ##### Rules of Tic Tac Toe
+ To **have a 3x3 grid** it is necessary to have:
+ * a cell that is restricted in value to `X`, `O`, of `undefined`
+ * the cells be adjacent
+ * the 
+
+ To **play a game** it is necessary to have all of:
+ * an empty 3x3 grid
 
 A __necessary _condition___ is a one that must be present for an event to occur. 
 
