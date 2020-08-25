@@ -145,7 +145,7 @@ Per - https://en.wikipedia.org/wiki/Necessity_and_sufficiency
     the expression represented by `N` is called the ***consequent***.
 
 </td></tr><tr><td>
-∴ a Rule
+∴ for the purposes of playing a Game, a Rule can be defined a 
 </td></tr>
 </table>
 
