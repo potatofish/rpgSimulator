@@ -6,6 +6,6 @@ The framework will provide generic utiliies to support functionality of a tradit
 
 
 ## Version History
-v0.0.1 - How to Play a Simple Game (Tic Tac Toe) *in development*
-v0.0.0 - Define A Game Framework
+* v0.0.1 - How to Play a Simple Game (Tic Tac Toe) *in development*
+* v0.0.0 - Define A Game Framework
 
