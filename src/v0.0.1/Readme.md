@@ -5,7 +5,8 @@ This project intends to provide a framework to model the crunch (rules) of a gam
 The framework will provide generic utiliies to support functionality of a traditional role-playing game through a configuration loaded at run time.
 
 ## Version 
-v0.0.q - How to Play a Simple Game (Tic Tac Toe)
+v0.0.1 - How to Play a Simple Game (Tic Tac Toe)
+
 ## Goals
 
  * 
