@@ -1,4 +1,8 @@
 /*jshint node: true, esversion: 9*/
 "use strict";
 
-exports.GameConcept = require("./GameConcept");
+module.exports = {
+    GameConcept : require("./GameConcept"),
+    GameState : require("./GameState"),
+    GameSpace : require("./GameSpace")
+};
