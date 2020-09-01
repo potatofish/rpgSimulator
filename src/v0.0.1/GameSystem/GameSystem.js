@@ -1,7 +1,12 @@
+/*jshint node: true, esversion: 9*/
+"use strict";
+
+const { GameRuleManager } = require("../GameRule");
+
 // 2020-08-31 - transitioned System to GameSystem
 class GameSystem {
     constructor() {
-        this.#ruleManager = new ObjectManager();
+        this.#ruleManager = new GameRuleManager();
     }
 
     get rules() {
@@ -16,7 +21,7 @@ class GameSystem {
     }
 
     find(existingRule) {
-        
+
     }
 
     remove(existingRule) {

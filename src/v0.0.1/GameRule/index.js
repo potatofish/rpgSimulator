@@ -1,6 +1,10 @@
-/* jshint node: true, esversion: 9*/
+/*jshint node: true, esversion: 9*/
 "use strict";
 
-const { GameRule } = require("./GameRule");
-
-module.exports = GameRule;
+module.exports = {
+    GameAction: require("./GameAction"),
+    GameRule: require("./GameRule"),
+    GameAim:  require("./GameAim"),
+    GameRuleManager: require("./GameRuleManager"),
+    GameRuleFactory:  require("./GameRuleFactory")
+};
