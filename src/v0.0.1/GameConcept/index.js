@@ -4,5 +4,9 @@
 module.exports = {
     GameConcept : require("./GameConcept"),
     GameState : require("./GameState"),
-    GameSpace : require("./GameSpace")
-};
+    GameSpace : require("./GameSpace"),
+    GameSession : require("./GameSession"),
+    GameSessionPhase : require("./GameSessionPhase"),
+    GamePlayer : require("./GamePlayer"),
+    GamePlayerSeat : require("./GamePlayerSeat")
+};  
