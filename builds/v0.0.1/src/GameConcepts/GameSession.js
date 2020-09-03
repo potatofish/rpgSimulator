@@ -4,16 +4,30 @@
 const GameSpace = require('./GameSpace');
 const GameState = require('./GameState');
 
+const PHASES = {
+    SETUP: "Set-up Play",
+    ACTIVE: "Active Play",
+    CLEANUP: "Clean-up Play",
+    COMPLETE: "Completed Play" //shadow phase important for
+    
+};
+
 class GameSession {
     constructor() {
         this.sessionSpace = new GameSpace();
-        this.sessionState = new GameState();
-    }
+        //console.log(this.sessionSpace.options);
 
-    get GameSpace(){
+
+     //   GameSpace.spawnIn(new GameState(PHASES.SETUP));
+    }
+    
+
+
+    /* TODO redo these as the action "observe" 
+    get GameSpaceJSON() {
         // return a copy
         //return Object.assign({}, this.sessionSpace);
-        return  this.sessionSpace;
+        return JSON.stringify(this.sessionSpace);
     }
 
     get GameState(){
@@ -21,6 +35,7 @@ class GameSession {
         //return Object.assign({}, this.sessionSpace);
         return this.sessionState;
     }
+    */
 }
 
 

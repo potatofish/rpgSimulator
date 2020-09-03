@@ -13,16 +13,9 @@ describe('GameSession',  () => {
             assert.ok(aGameSession instanceof GameSession);
         });
 
-        it('A GameSession can return a copy of the GameSpace within', () => {
+        it('A GameSession has a GameSpace', () => {
             const aGameSession = new GameSession();
-            const sessionGameSpace = aGameSession.GameSpace;
-            assert.ok(sessionGameSpace instanceof GameSpace);
-        });
-
-        it('A GameSession can return a copy of the GameState within', () => {
-            const aGameSession = new GameSession();
-            const sessionGameState = aGameSession.GameState;
-            assert.ok(sessionGameState instanceof GameState);
+            assert.ok(aGameSession.sessionSpace instanceof GameSpace);
         });
     });
 });
