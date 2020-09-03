@@ -5,7 +5,7 @@ const GameSpace = require('./GameSpace');
 
 class GamePlayerSeat extends GameSpace {
     constructor() {
-        
+        super();
     }
 }
 
