@@ -3,6 +3,13 @@
 
 class GameConcept {
     constructor() {
+        this.options = {
+            targetablity : true
+        };
+    }
+
+    get isTargetable() {
+        return this.options.targetablity === true;
     }
 }
 
