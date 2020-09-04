@@ -2,14 +2,32 @@
 "use strict";
 
 class GameConcept {
-    constructor() {
+    constructor(aLabel) {
+        if (aLabel === undefined)
+            throw new Error("All concepts must be labelled.");
+
+        if (typeof aLabel !== "string")
+            throw new Error("All concepts labels must be a string.");
+
         this.options = {
-            targetablity : true
+            targetable : true,
+            editable: true
+        };
+        this.description = {
+            label: aLabel
         };
     }
 
-    get isTargetable() {
-        return this.options.targetablity === true;
+    get canTarget() {
+        return this.options.targetable === true;
+    }
+
+    get canEdit() {
+        return this.options.editable === true;
+    }
+
+    get label() {
+        return this.description.label;
     }
 }
 
