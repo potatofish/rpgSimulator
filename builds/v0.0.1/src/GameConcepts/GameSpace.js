@@ -3,10 +3,11 @@
 
 
 const GameConcept = require('./GameConcept');
+const GameSpaceManager = require('./util/GameSpaceManager');
 
 class GameSpace extends GameConcept {
-    constructor() {
-        super();
+    constructor(label) {
+        super(label);
         Object.assign(this.options, {
             mobility: true,
             visibility: true
@@ -15,20 +16,24 @@ class GameSpace extends GameConcept {
         //console.log({opts: this.options});
     }
 
-    moveTo(objectToMove) {
-        let errorMessage = false;
-        switch (!(true)) {
-            case objectToMove.isMobile:
-                errorMessage = "This object is not mobile.";
-                break;
-            case this.someSpace.isFull:
-                errorMessage = "This space is full.";
-                break;
-            default:
-                break;
+    contain(object) {
+        switch (true) {
+            case (!(object instanceof GameConcept)):
+                throw new Error("The object is not a GameConcept");
+            case (!(object.isMobile)):
+                throw new Error("This object is not mobile.");
+            case (this.someSpace.isFull):
+                throw new Error("This space is full.");
         }
 
-        this.subGameSpace.manage(objectToMove);
+        this.someSpace.manage(object);
+    }
+
+    describe() {
+        return {
+            options: this.options,
+            contains: this.someSpace.list
+        };
     }
 
     get isMobile() {
