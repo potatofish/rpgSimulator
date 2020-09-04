@@ -1,3 +1,6 @@
+/* jshint node: true, esversion: 10*/
+"use strict";
+
 const ObjectFactory = require('../ObjectFactory');
 
 class ObjectManager {

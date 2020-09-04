@@ -1,3 +1,6 @@
+/* jshint node: true, esversion: 10*/
+"use strict";
+
 class ObjectFactory {
     constructor(config) { 
         //console.log("ObjectFactory Made");
@@ -5,7 +8,7 @@ class ObjectFactory {
     }
 
     create() {
-        return new Object()
+        return new Object();
     }
 }
 
