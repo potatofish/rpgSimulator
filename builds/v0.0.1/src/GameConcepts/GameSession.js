@@ -14,7 +14,9 @@ const PHASES = {
 
 class GameSession {
     constructor() {
-        this.sessionSpace = new GameSpace();
+        this.sessionSpace = new GameSpace("Area of Play");
+
+        this.sessionSpace.contain(new GameState(PHASES.SETUP));
         //console.log(this.sessionSpace.options);
 
 
