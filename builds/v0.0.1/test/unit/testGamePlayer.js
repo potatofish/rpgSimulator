@@ -7,7 +7,7 @@ const GamePlayer = require('../../src/GameConcepts/GamePlayer.js');
 describe('GamePlayer',  () => {
     describe('constructor()', () => {
         it('A basic GamePlayer can be constructed', () => {
-            const abasicGamePlayer = new GamePlayer();
+            const abasicGamePlayer = new GamePlayer("Basic");
             assert.ok(abasicGamePlayer instanceof GamePlayer);
         });
     });

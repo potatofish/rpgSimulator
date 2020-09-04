@@ -7,7 +7,7 @@ const GameState = require('../../src/GameConcepts/GameState.js');
 describe('GameState',  () => {
     describe('constructor()', () => {
         it('A basic GameState can be constructed', () => {
-            const abasicGameState = new GameState();
+            const abasicGameState = new GameState("Basic");
             assert.ok(abasicGameState instanceof GameState);
         });
     });

@@ -7,7 +7,7 @@ const GameConcept = require('../../src/GameConcepts/GameConcept.js');
 describe('GameConcept',  () => {
     describe('constructor()', () => {
         it('A basic GameConcept can be constructed', () => {
-            const abasicConcept = new GameConcept();
+            const abasicConcept = new GameConcept("Basic");
             assert.ok(abasicConcept instanceof GameConcept);
         });
     });
