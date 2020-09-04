@@ -2,7 +2,7 @@
 "use strict";
 
 const GameConcept = require('./GameConcept');
-st GameSpace = require('./GameSpace');
+const GameSpace = require('./GameSpace');
 
 class GameState extends GameSpace {
     constructor(label) {
@@ -13,7 +13,7 @@ class GameState extends GameSpace {
         if (!(aGameState instanceof GameState)) {
             throw new Error("GameStates can only contain Other GameStates");
         }
-        super.contain(aGameState);
+        return super.contain(aGameState);
     }
 
     

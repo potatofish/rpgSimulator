@@ -3,6 +3,7 @@
 
 const GameSpace = require('./GameSpace');
 const GameState = require('./GameState');
+const GameSystem = require('../GameRules/GameSystem.js');
 
 const PHASES = {
     SETUP: "Set-up Play",
@@ -12,16 +13,30 @@ const PHASES = {
     
 };
 
-class GameSession {
-    constructor() {
-        this.sessionSpace = new GameSpace("Area of Play");
+class GameSession extends GameSpace {
+    constructor(aGameSystem) {
+        if (!(aGameSystem instanceof GameSystem))
+            throw new Error("Sessions require a GameSystem of rules to play.");
 
-        this.sessionSpace.contain(new GameState(PHASES.SETUP));
-        //console.log(this.sessionSpace.options);
+        super(`Area of Play for ${aGameSystem}`);
+
+        let activePhase = new GameState(PHASES.SETUP);
+
+        let results = this.contain(activePhase);
+
+        this.keys = {
+            activePhase : Object.getOwnPropertyNames(results)[0]
+        };
+
+        //console.log({sessionResult: resultKey});
 
 
      //   GameSpace.spawnIn(new GameState(PHASES.SETUP));
     }
+
+        get activePhase() {
+            return this.managedSpace.atKey(this.keys.activePhase);
+        }
     
 
 

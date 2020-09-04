@@ -18,6 +18,9 @@ describe('GameSpace',  () => {
 
             let contentsOfPrimary = aGameSpacePrimary.describe().contains;
             let secondaryKey = Object.getOwnPropertyNames(contentsOfPrimary);
+            
+            //console.debug(contentsOfPrimary[secondaryKey]);
+
             assert.ok(contentsOfPrimary[secondaryKey] instanceof GameSpace);
         });
     });

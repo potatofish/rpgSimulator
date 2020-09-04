@@ -12,7 +12,7 @@ class GameSpace extends GameConcept {
             mobility: true,
             visibility: true
         });
-        this.someSpace = new GameSpaceManager();
+        this.managedSpace = new GameSpaceManager();
         //console.log({opts: this.options});
     }
 
@@ -22,17 +22,19 @@ class GameSpace extends GameConcept {
                 throw new Error("The object is not a GameConcept");
             case (!(object.isMobile)):
                 throw new Error("This object is not mobile.");
-            case (this.someSpace.isFull):
+            case (this.managedSpace.isFull):
                 throw new Error("This space is full.");
         }
+        let result = this.managedSpace.manage(object);
+        console.log({containResult: result});
 
-        this.someSpace.manage(object);
+        return result;
     }
 
     describe() {
         return {
             options: this.options,
-            contains: this.someSpace.list
+            contains: this.managedSpace.list
         };
     }
 

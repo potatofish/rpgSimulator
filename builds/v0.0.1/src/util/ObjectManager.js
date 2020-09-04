@@ -1,7 +1,7 @@
 /* jshint node: true, esversion: 10*/
 "use strict";
 
-const ObjectFactory = require('../ObjectFactory');
+const ObjectFactory = require('./ObjectFactory');
 
 class ObjectManager {
     constructor() {   
@@ -28,6 +28,8 @@ class ObjectManager {
         this._managedObjects[propertyKey] = object;
         let result = {};
         result[propertyKey] = object;
+        //console.log({manageResult: result});
+        
         return result;
     }
 

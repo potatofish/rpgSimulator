@@ -1,6 +1,7 @@
 /* jshint node: true, esversion: 10*/
 "use strict";
 
+
 // 2020-08-31 - transitioned Action to GameAction
 
 /**
@@ -10,31 +11,20 @@
  */
 
 
-//const GameConcept = require(../GameConcept)
+const GameConcept = require('../GameConcepts/GameConcept');
+
 class GameAction {
-     constructor(aFunction, targetList) {
+     constructor(aFunction) {
         //validate arguments
         if (typeof aFunction !== "function") {
-            throw "Action: primary argument is not a function." + aFunction;
+            throw new Error(`aFunction is not a function. ${aFunction}`);
         }
 
-        if (!Array.isArray(targetList)) {
-            throw "Action: secondary argument is not an array" + aFunction;
-        }
+        this.targetableAction = aFunction;
 
-        this.action = aFunction;
-        this.targetList = [];
-        targetList.forEach(target => {
-            //TODO validate that all targets are GameConcepts
-            this.targetList.push(target);
-        });
     }
     get action() {
-        return this.action;
-    }
-
-    get targetList() {
-        return this.targetList;
+        return this.targetAbleAction;
     }
 }
 module.exports = GameAction;

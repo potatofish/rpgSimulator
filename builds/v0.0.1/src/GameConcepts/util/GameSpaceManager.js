@@ -3,7 +3,7 @@
 "use strict";
 
 
-const ObjectManager = require('../../ObjectManager');
+const ObjectManager = require('../../util/ObjectManager');
 class GameSpaceManager extends ObjectManager {
     constructor() {
         super();
