@@ -2,10 +2,18 @@
 "use strict";
 
 const GameConcept = require('./GameConcept');
+st GameSpace = require('./GameSpace');
 
-class GameState extends GameConcept {
-    constructor() {
-        super();
+class GameState extends GameSpace {
+    constructor(label) {
+        super(label);
+    }
+
+    contain(aGameState) {
+        if (!(aGameState instanceof GameState)) {
+            throw new Error("GameStates can only contain Other GameStates");
+        }
+        super.contain(aGameState);
     }
 
     
