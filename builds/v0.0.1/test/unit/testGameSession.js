@@ -24,7 +24,7 @@ describe('GameSession',  () => {
         it('The GameSpace has an activePhase GameState', () => {
             const aGameSystem = new GameSystem();
             const aGameSession = new GameSession(aGameSystem);
-            console.log(aGameSession.activePhase);
+            //console.log(aGameSession.activePhase);
             assert.ok(aGameSession.activePhase instanceof GameState);
         });
     });

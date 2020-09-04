@@ -26,7 +26,7 @@ class GameSpace extends GameConcept {
                 throw new Error("This space is full.");
         }
         let result = this.managedSpace.manage(object);
-        console.log({containResult: result});
+        //console.log({containResult: result});
 
         return result;
     }

@@ -27,7 +27,7 @@ describe('GameSystem',  () => {
             const result = aGameSystem.add(aGameRule);
 
             const ruleKey = Object.getOwnPropertyNames(result)[0];
-            console.debug({ruleKey, result});
+            //console.debug({ruleKey, result});
 
             const lookedupGameRule = aGameSystem.lookup(ruleKey);
           
