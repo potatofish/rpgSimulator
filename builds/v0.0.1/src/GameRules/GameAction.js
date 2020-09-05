@@ -19,11 +19,16 @@ class GameAction {
         if (typeof aFunction !== "function") {
             throw new Error(`aFunction is not a function. ${aFunction}`);
         }
-
+        console.log({aFunction: aFunction});
         this.targetableAction = aFunction;
+        this.targetableAction.bind(aFunction);
+
+        console.log({targetableActionC: this.targetableAction});
+
 
     }
     get action() {
+        console.log({targetAbleActionG: this.targetAbleAction});
         return this.targetAbleAction;
     }
 }
