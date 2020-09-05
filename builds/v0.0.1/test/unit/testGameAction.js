@@ -4,6 +4,7 @@
 const assert = require('assert');
 const GameAction = require('../../src/GameRules/GameAction.js');
 const GameConcept = require('../../src/GameConcepts/GameConcept.js');
+const { debug } = require('console');
 
 describe('GameAction',  () => {
     describe('constructor()', () => {
@@ -14,30 +15,36 @@ describe('GameAction',  () => {
         });
 
 
+        // /*
         it('A basic GameAction has an action function', () => {
-            const fooDate = Date.now();
-            const fooFunction = function() { return `${fooDate}`;};
-            const fooTarget = new GameConcept("foo");
+            const testString = 'testString123';
+            const fooFunction = function() { return `${testString}`;};
             const aGameAction = new GameAction(fooFunction);
-            console.log({action: aGameAction.action});
+        
+            const log_output = {};
+            log_output['✔action'] = aGameAction.action;
+            log_output['✔fooFunction']= fooFunction;
+            log_output['✔aGameAction.action']= aGameAction.action;
 
-            assert.ok(aGameAction.action === fooFunction);
-        });
+            //console.debug({log_output});
 
+            assert.ok(fooFunction === aGameAction.action);
+            assert.ok(fooFunction() === 'testString123');
+            assert.ok(fooFunction() === aGameAction.action());
+        }); // */
+   
+        // /*
         it('A basic GameAction can be invoked on a GameConcept', () => {
-            const fooDate = Date.now();
-            const fooFunction = function() { return `${fooDate}`;};
-            const fooTarget = new GameConcept("foo");
-            const aGameAction = new GameAction(fooFunction);
+            const dummyLabel = 'testString123';
+            const getLabel = function() { return this.label;};
+            const fooTarget = new GameConcept(dummyLabel);
+            const aGameAction = new GameAction(getLabel);
 
-            
+            const boundGetLabel = aGameAction.action.bind(fooTarget);
 
-            fooTarget.bind({action: aGameAction.action});
+            //console.debug({fooTarget, label: boundGetLabel()});
 
-            const fooResult = fooTarget.action();
-            delete fooResult.action;
-
-            assert.ok(fooResult === fooDate);
-        });
+            assert.ok(dummyLabel === boundGetLabel());
+        }); //*/
     });
 });

@@ -19,17 +19,31 @@ class GameAction {
         if (typeof aFunction !== "function") {
             throw new Error(`aFunction is not a function. ${aFunction}`);
         }
-        console.log({aFunction: aFunction});
-        this.targetableAction = aFunction;
-        this.targetableAction.bind(aFunction);
+        //console.log({aFunction: aFunction});
+        this.actionFunction = aFunction;
+//        this.targetableAction2 = aFunction.bind(this.targetableAction3);
 
-        console.log({targetableActionC: this.targetableAction});
+        /*
+        console.debug({
+             onNew: {
+                     1: this.actionFunction//, 
+                     //2: this.targetableAction2, 
+                    // 3: this.targetableAction3
+        }});
+        */
 
 
     }
     get action() {
-        console.log({targetAbleActionG: this.targetAbleAction});
-        return this.targetAbleAction;
+        /*
+        console.debug({
+            onGet: {
+                    1: this.actionFunction//, 
+                    //2: this.targetableAction2, 
+                    //3: this.targetableAction3
+       }});
+       */
+        return this.actionFunction;
     }
 }
 module.exports = GameAction;
