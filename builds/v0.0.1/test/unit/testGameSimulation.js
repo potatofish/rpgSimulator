@@ -2,25 +2,50 @@
 "use strict";
 
 const assert = require('assert');
+const { AssertionError } = require('assert');
 const GameSimulation = require('../../src/GameSimulation/GameSimulation.js');
-const { EventEmitter } = require('events');
+const User = require('../../src/GameSimulation/User.js');
 
-describe('GameSimulation',  () => {
+const failMessage = {
+    initWithoutInit: "isInitialized w/o init()",
+    notInitAfter: "Not isInitialized after init()",
+    joinWithoutInit: "join() does not error out when init() it not run"
+};
+
+
+describe('GameSimulation', () => {
     describe('init()', () => {
-        it('The GameSimulation can be initialized', (done) => {
-            const anEventEmitter = new EventEmitter();
-            let eventHasFired = false;
-            setTimeout(function () {
-                console.log({timeout: eventHasFired});
-                assert(eventHasFired, 'Event did not fire in 1000 ms.');
-                done();
-            }, 1000);
+        it('The GameSimulation can be initialized', () => {
+            const aGameSimulation = new GameSimulation();
 
-            GameSimulation.init();
-            anEventEmitter.on('initialized',() => {
-                eventHasFired = true;
-                console.log({init: eventHasFired});
-            });
+            assert(!(aGameSimulation.isInitialized), failMessage.initWithoutInit);
+
+            aGameSimulation.init();
+            assert(aGameSimulation.isInitialized, failMessage.notInitAfter);
+        });
+
+        it("A user can't join if GameSimulation is not initialized", () => {
+            const aGameSimulation = new GameSimulation();
+            assert(
+                !(aGameSimulation.isInitialized), 
+                failMessage.initWithoutInit
+            );
+
+            const aUser = new User();
+            const errorMsg = "Not yet initialized. Try init().";
+            try {
+                aGameSimulation.join(aUser);
+                assert.fail('expected exception not thrown');
+            } catch (e) {
+                // bubble up the assertion error if assert funcs have failed
+                if (e instanceof AssertionError) { throw e; }
+                
+                assert.equal(
+                    e.message,
+                    errorMsg,
+                    failMessage.joinWithoutInit
+                );
+            }
         });
     });
 });

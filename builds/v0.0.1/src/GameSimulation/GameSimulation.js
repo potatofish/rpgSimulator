@@ -7,24 +7,39 @@ const SimulationEventEmitter = require('./util/SimulationEventEmitter');
 
 class GameSimulation {
     constructor() {
-        throw new Error("Only a single GameSimulation. See init().")
-    }
-
-    static init() {
-        let userManager = new UserManager();
+        this.userManager = new UserManager();
         this.simulationEventEmitter = new SimulationEventEmitter();
 
         this.simulationEventEmitter.on('join', (aUser) => {
-            console.log("for now this is THE join response");
+            console.log("for now this is THE join response for a user!");
          });
 
-        
-         this.simulationEventEmitter.emit('initialized');
+        this._options = {
+            initialized : false
+        };
+
     }
 
-    static join() {
-        let result = this.simulationEventEmitter.emit('join');
+    init() {        
+        this._options = {
+            initialized : true
+        };
     }
+
+    join(aUser) {
+        if(!(this.isInitialized)) {
+            let errorMessage = 
+                "Not yet initialized. Try init().";
+            throw new Error(errorMessage);
+        }
+        let joinResult = this.simulationEventEmitter.emit('join');
+    }
+
+    get isInitialized() {
+        return this._options.initialized === true;
+    }
+
+
 }
 
 module.exports = GameSimulation;
