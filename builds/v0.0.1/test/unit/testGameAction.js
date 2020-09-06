@@ -15,7 +15,6 @@ describe('GameAction',  () => {
         });
 
 
-        // /*
         it('A basic GameAction has an action function', () => {
             const testString = 'testString123';
             const fooFunction = function() { return `${testString}`;};
@@ -31,9 +30,8 @@ describe('GameAction',  () => {
             assert.ok(fooFunction === aGameAction.action);
             assert.ok(fooFunction() === 'testString123');
             assert.ok(fooFunction() === aGameAction.action());
-        }); // */
-   
-        // /*
+        }); 
+
         it('A basic GameAction can be invoked on a GameConcept', () => {
             const dummyLabel = 'testString123';
             const getLabel = function() { return this.label;};
@@ -45,6 +43,6 @@ describe('GameAction',  () => {
             //console.debug({fooTarget, label: boundGetLabel()});
 
             assert.ok(dummyLabel === boundGetLabel());
-        }); //*/
+        }); 
     });
 });
