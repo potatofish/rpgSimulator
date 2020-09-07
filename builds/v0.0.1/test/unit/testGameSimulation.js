@@ -4,63 +4,53 @@
 const assert = require('assert');
 const { AssertionError } = require('assert');
 const GameSimulation = require('../../src/GameSimulation/GameSimulation.js');
+const GameSystem = require('../../src/GameRules/GameSystem.js');
 const User = require('../../src/GameSimulation/User.js');
-
-const failMessage = {
-    initWithoutInit: "isInitialized w/o init()",
-    notInitAfter: "Not isInitialized after init()",
-    joinWithoutInit: "join() does not error out when init() it not run"
-};
-
+const GameSession = require('../../src/GameConcepts/GameSession.js');
 
 describe('GameSimulation', () => {
-    describe('init()', () => {
-        it('The GameSimulation can be initialized', () => {
+    describe('constructor()', () => {
+        it('The GameSimulation is uninitialized', () => {
             const aGameSimulation = new GameSimulation();
-
-            assert(!(aGameSimulation.isInitialized), failMessage.initWithoutInit);
+            const earlyInitMessage = "isInitialized w/o init()";
+            assert(!(aGameSimulation.isInitialized), earlyInitMessage);
 
             aGameSimulation.init();
-            assert(aGameSimulation.isInitialized, failMessage.notInitAfter);
+            const notInitMessage = "isInitialized w/o init()";
+            assert(aGameSimulation.isInitialized, notInitMessage);
         });
 
-        it("A user can't join if GameSimulation is not initialized", () => {
+        it('An initialized GameSimulation can load a GameSystem', () => {
             const aGameSimulation = new GameSimulation();
-            assert(
-                !(aGameSimulation.isInitialized), 
-                failMessage.initWithoutInit
-            );
-
-            const aUser = new User();
-            const errorMsg = "Not yet initialized. Try init().";
-            try {
-                aGameSimulation.join(aUser);
-                assert.fail('expected exception not thrown');
-            } catch (e) {
-                // bubble up the assertion error if assert funcs have failed
-                if (e instanceof AssertionError) { throw e; }
-                
-                assert.equal(
-                    e.message,
-                    errorMsg,
-                    failMessage.joinWithoutInit
-                );
-            }
-        });
-
-        it("A user can join if GameSimulation is initialized", () => {
-            const aGameSimulation = new GameSimulation();
+            const earlyInitMessage = "isInitialized w/o init()";
+            assert(!(aGameSimulation.isInitialized), earlyInitMessage);
+            
             aGameSimulation.init();
-            assert(aGameSimulation.isInitialized);
+            const notInitMessage = "isInitialized w/o init()";
+            assert(aGameSimulation.isInitialized, notInitMessage);
             
-            const userName = "aUser";
-            const aUser = new User(userName);
-            const aPlayer = aGameSimulation.join(aUser);
+            const aGameSystem = new GameSystem();
             
-            assert.equal(aPlayer.label, userName);
-            // assert aPlayer is in aGameSimulation
-            // assert aPlayer in aGameSimulation with same user
-            
+            aGameSimulation.load(aGameSystem);
+            assert.equal(aGameSimulation._gameSystem, aGameSystem);
         });
+
+        it('An loaded GameSimulation can start a GameSession', () => {
+            const aGameSimulation = new GameSimulation();
+            const earlyInitMessage = "isInitialized w/o init()";
+            assert(!(aGameSimulation.isInitialized), earlyInitMessage);
+            
+            aGameSimulation.init();
+            const notInitMessage = "isInitialized w/o init()";
+            assert(aGameSimulation.isInitialized, notInitMessage);
+            
+            const aGameSystem = new GameSystem();
+            
+            aGameSimulation.load(aGameSystem);
+            assert.equal(aGameSimulation._gameSystem, aGameSystem);
+
+            aGameSimulation.startSession();
+            assert(aGameSimulation._activeSession instanceof GameSession);
+        }); 
     });
 });

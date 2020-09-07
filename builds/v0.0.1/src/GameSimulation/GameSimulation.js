@@ -5,6 +5,9 @@ const EventEmitter = require('events');
 const UserManager = require('./util/UserManager.js');
 const SimulationEventEmitter = require('./util/SimulationEventEmitter');
 const GamePlayer = require('../GameConcepts/GamePlayer.js');
+const GameSession = require('../GameConcepts/GameSession.js');
+
+const GameSystem = require('../GameRules/GameSystem.js');
 
 class GameSimulation {
     constructor() {
@@ -25,6 +28,20 @@ class GameSimulation {
         this._options = {
             initialized : true
         };
+    }
+
+    load(aGameSystem) {
+        if (!(aGameSystem instanceof GameSystem)) {
+            throw new Error("load argument is not a GameSystem")
+        }
+        this._gameSystem = aGameSystem;
+    }
+
+    startSession() {
+        if (this._gameSystem === undefined) {
+            throw new Error("No game system defined")
+        }
+        this._activeSession = new GameSession(this._gameSystem);
     }
 
     join(aUser) {
