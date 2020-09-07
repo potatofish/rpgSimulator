@@ -2,7 +2,12 @@
 "use strict";
 
 class User {
-    constructor() {
+    constructor(aName) {
+        this._name = aName;
+    }
+
+    get name() {
+        return this._name;
     }
 }
 

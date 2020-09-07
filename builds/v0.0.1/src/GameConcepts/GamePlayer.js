@@ -2,10 +2,14 @@
 "use strict";
 
 const GameSpace = require('./GameSpace');
+const User = require('../GameSimulation/User');
 
 class GamePlayer extends GameSpace {
-    constructor(name) {
-        super(name);
+    constructor(aUser) {
+        if (!(aUser instanceof User)) {
+            throw new Error("GamePlayers require a User")
+        } 
+        super(aUser.name);
     }
 
     get name() {

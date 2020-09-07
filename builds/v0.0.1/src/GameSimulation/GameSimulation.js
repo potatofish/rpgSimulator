@@ -4,6 +4,7 @@
 const EventEmitter = require('events');
 const UserManager = require('./util/UserManager.js');
 const SimulationEventEmitter = require('./util/SimulationEventEmitter');
+const GamePlayer = require('../GameConcepts/GamePlayer.js');
 
 class GameSimulation {
     constructor() {
@@ -32,7 +33,16 @@ class GameSimulation {
                 "Not yet initialized. Try init().";
             throw new Error(errorMessage);
         }
+
+        const managedUser = this.userManager.manage(aUser);
+        console.log({managedUser});
+        
+        // TODO remove the tostring()
+        // TODO use a GamePlayer factory
+        let playerForUser = new GamePlayer(aUser); 
+
         let joinResult = this.simulationEventEmitter.emit('join');
+        return playerForUser;
     }
 
     get isInitialized() {

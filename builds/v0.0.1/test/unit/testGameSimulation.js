@@ -47,5 +47,20 @@ describe('GameSimulation', () => {
                 );
             }
         });
+
+        it("A user can join if GameSimulation is initialized", () => {
+            const aGameSimulation = new GameSimulation();
+            aGameSimulation.init();
+            assert(aGameSimulation.isInitialized);
+            
+            const userName = "aUser";
+            const aUser = new User(userName);
+            const aPlayer = aGameSimulation.join(aUser);
+            
+            assert.equal(aPlayer.label, userName);
+            // assert aPlayer is in aGameSimulation
+            // assert aPlayer in aGameSimulation with same user
+            
+        });
     });
 });
