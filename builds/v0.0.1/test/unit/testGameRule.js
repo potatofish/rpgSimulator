@@ -45,11 +45,11 @@ describe('GameRule', () => {
             
             assert.equal(truthFunction, abasicGameRule.condition.truthFunction);
 
-            const boundSimpleSetup1 = truthFunction.bind(aGameSpace);
-            const boundSimpleSetup2 = ruleCondtion.bind(aGameSpace);
+            const boundLocalCondition = truthFunction.bind(aGameSpace);
+            const boundRuleCondition = ruleCondtion.bind(aGameSpace);
 
-            assert(boundSimpleSetup1());
-            assert(boundSimpleSetup2());
+            assert(boundLocalCondition());
+            assert(boundRuleCondition());
         });
     });
 });
