@@ -40,7 +40,7 @@ describe('GameAction',  () => {
 
             const boundGetLabel = aGameAction.action.bind(fooTarget);
 
-            //console.debug({fooTarget, label: boundGetLabel()});
+            console.debug({fooTarget, label: boundGetLabel()});
 
             assert.ok(dummyLabel === boundGetLabel());
         }); 

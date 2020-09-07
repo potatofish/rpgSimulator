@@ -7,16 +7,23 @@ const GameCondition = require('./GameCondition');
 // 2020-08-31 - transitioned Rule to GameRule
 class GameRule {
     constructor(anAction, aCondition) {
-       this.ruleAction = anAction;
-       this.ruleCondition = aCondition;
+        if(!(anAction instanceof GameAction)) {
+            throw new Error(`anAction is not a GameAction: ${anAction}`)
+        }
+        if(!(aCondition instanceof GameCondition)) {
+            throw new Error(`aCondition is not a GameCondition: ${aCondition}`)
+        }
+
+       this._action = anAction;
+       this._condition = aCondition;
     }
 
     get action() {
-        return this.ruleAction;
+        return this._action;
     }
 
     get condition() {
-        return this.ruleCondition;
+        return this._condition;
     }
 }
 

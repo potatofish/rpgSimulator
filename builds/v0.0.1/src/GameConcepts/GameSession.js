@@ -15,8 +15,10 @@ const PHASES = {
 
 class GameSession extends GameSpace {
     constructor(aGameSystem) {
-        if (!(aGameSystem instanceof GameSystem))
+        if (!(aGameSystem instanceof GameSystem)) {
             throw new Error("Sessions require a GameSystem of rules to play.");
+        }
+
 
         super(`Area of Play for ${aGameSystem}`);
 
@@ -36,6 +38,10 @@ class GameSession extends GameSpace {
 
         get activePhase() {
             return this.managedSpace.atKey(this.keys.activePhase);
+        }
+
+        get players() {
+            console.log(this.managedSpace.list());
         }
     
 
@@ -57,3 +63,4 @@ class GameSession extends GameSpace {
 
 
 module.exports = GameSession;
+module.exports.PHASES = PHASES;

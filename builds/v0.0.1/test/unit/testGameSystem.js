@@ -21,7 +21,7 @@ describe('GameSystem',  () => {
                 console.log("This does nothing");
             });
 
-            const aGameCondition = new GameCondition();
+            const aGameCondition = new GameCondition(() => {});
 
             const aGameRule = new GameRule(aGameAction,aGameCondition);
             const result = aGameSystem.add(aGameRule);

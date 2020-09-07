@@ -47,10 +47,10 @@ class ObjectManager {
         let keyList = [];
         this.keys.forEach((key) => {
             if (this._managedObjects[key] === object) {
-                keyList.push(key)
+                keyList.push(key);
             }
-        })
-        return keyList
+        });
+        return keyList;
     }
 
     get list() {

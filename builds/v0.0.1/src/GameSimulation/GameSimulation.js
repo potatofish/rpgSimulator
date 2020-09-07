@@ -15,7 +15,8 @@ class GameSimulation {
         this.simulationEventEmitter = new SimulationEventEmitter();
 
         this.simulationEventEmitter.on('join', (aUser) => {
-            console.log("for now this is THE join response for a user!");
+            //TODO output this to a chatbox
+            console.log(`${aUser} has joined the session`);
          });
 
         this._options = {
@@ -52,14 +53,21 @@ class GameSimulation {
         }
 
         const managedUser = this.userManager.manage(aUser);
-        console.log({managedUser});
+        //console.log({managedUser});
         
-        // TODO remove the tostring()
         // TODO use a GamePlayer factory
-        let playerForUser = new GamePlayer(aUser); 
+        let playerForUser = new GamePlayer(aUser);
+        
+        this._activeSession.contain(playerForUser);
 
         let joinResult = this.simulationEventEmitter.emit('join');
         return playerForUser;
+    }
+
+    play() {
+       if(this._activeSession.activePhase !== GameSession.PHASES.ACTIVEPLAY) {
+           throw new Error("Game cannot be played if active Phase is not 'Active Play'.");
+       }
     }
 
     get isInitialized() {
