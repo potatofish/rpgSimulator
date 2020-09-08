@@ -8,6 +8,9 @@ const GamePlayer = require('../GameConcepts/GamePlayer.js');
 const GameSession = require('../GameConcepts/GameSession.js');
 
 const GameSystem = require('../GameRules/GameSystem.js');
+const User = require('./User.js');
+const SystemUser = require('./SystemUser.js');
+
 
 class GameSimulation {
     constructor() {
@@ -17,10 +20,18 @@ class GameSimulation {
         this.simulationEventEmitter.on('join', (aUser) => {
             //TODO output this to a chatbox
             console.log(`${aUser} has joined the session`);
-         });
+        });
+
+        this.simulationEventEmitter.on('sessionStarted', () => {
+            this.watchRules();
+        });
 
         this._options = {
             initialized : false
+        };
+
+        this.keys = {
+            systemUser : undefined
         };
 
     }
@@ -29,20 +40,47 @@ class GameSimulation {
         this._options = {
             initialized : true
         };
+
+        let systemUser = new SystemUser();
+        this.keys.systemUser = Object.getOwnPropertyNames(this.userManager.manage(systemUser))[0];
+        let initResult = this.simulationEventEmitter.emit('initialized');
+
+        console.log({initResult: initResult});
+    }
+
+    async watchRules() {
+        let i = 0;
+        while(i < 1) {
+            console.log("Loop over the rules over and over");
+            // check if the condition is true
+            
+            // this._gameSystem.forEach(element => {
+            //     console.log(element);
+            // });
+
+            console.log({GS_List: this._gameSystem.rules});
+
+            //  - permit the action if it's a rule
+            //  - submit the action if it's an aim
+            i++;
+        }
+
     }
 
     load(aGameSystem) {
         if (!(aGameSystem instanceof GameSystem)) {
-            throw new Error("load argument is not a GameSystem")
+            throw new Error("load argument is not a GameSystem");
         }
         this._gameSystem = aGameSystem;
     }
 
     startSession() {
         if (this._gameSystem === undefined) {
-            throw new Error("No game system defined")
+            throw new Error("No game system defined");
         }
         this._activeSession = new GameSession(this._gameSystem);
+        let initResult = this.simulationEventEmitter.emit('sessionStarted');
+
     }
 
     join(aUser) {
@@ -72,6 +110,13 @@ class GameSimulation {
 
     get isInitialized() {
         return this._options.initialized === true;
+    }
+    
+    get systemUser() {
+        //console.log({suk2:this.keys.systemUser});
+        const systemUser = this.userManager.atKey(this.keys.systemUser);
+        //console.log({suo: systemUser});
+        return systemUser;
     }
 
 

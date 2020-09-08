@@ -11,7 +11,7 @@ class GameSystem {
     }
 
     get rules() {
-        return this.ruleManager.list();
+        return this.ruleManager.list;
     }
 
     get aims() {
