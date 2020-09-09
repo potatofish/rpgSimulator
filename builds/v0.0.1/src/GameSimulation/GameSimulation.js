@@ -50,19 +50,39 @@ class GameSimulation {
 
     async watchRules() {
         let i = 0;
-        while(i < 1) {
+         while(this._activeSession.activePhase !==
+                GameSession.PHASES.COMPLETE) {
             console.log("Loop over the rules over and over");
             // check if the condition is true
             
-            // this._gameSystem.forEach(element => {
-            //     console.log(element);
-            // });
+            let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
+
+            ruleKeys.forEach(key => {
+                const rule = this._gameSystem.rules[key];
+
+                const condition = rule.condition.truthFunction;
+                const boundRuleCondition = condition.bind(this._activeSession);
+                const conditionResult = boundRuleCondition();
+                console.log(`rule ${key}\n${condition}`);
+
+                if(conditionResult === undefined)
+                    throw new Error(`Game cannot be run, rule ${key} invalid.`)
+                
+                if(conditionResult) {
+                    const action = rule.action.action;
+                    const boundRuleAction = action.bind(this._activeSession);
+                }
+
+                //rule
+                console.log(`${key}: ${rule.condition.truthfunction}`);
+            });
 
             console.log({GS_List: this._gameSystem.rules});
 
             //  - permit the action if it's a rule
             //  - submit the action if it's an aim
             i++;
+            break;
         }
 
     }
