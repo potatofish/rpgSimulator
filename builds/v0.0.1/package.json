@@ -4,7 +4,7 @@
   "description": "a game rule (crunch) simulator",
   "main": "index.js",
   "scripts": {
-    "testx": "mocha --recursive './test/unit/*.js'",
+    "unit": "mocha --recursive './test/unit/testGameSpace.js'",
     "test": "mocha --recursive './test/unit/*.js'"
   },
   "author": "N.A. Protasivich",
