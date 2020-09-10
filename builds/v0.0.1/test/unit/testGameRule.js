@@ -34,7 +34,7 @@ describe('GameRule', () => {
             const aGameAction = new GameAction(basicFunction);
             
             const truthFunction = function () {
-                console.log({ this: this });
+                //console.log({ this: this });
                 return this.label === "Basic User";
             };
 

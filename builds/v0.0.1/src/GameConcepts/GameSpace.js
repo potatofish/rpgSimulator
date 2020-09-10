@@ -31,6 +31,27 @@ class GameSpace extends GameConcept {
         return result;
     }
 
+    remove(objectKey) {
+        console.log({spaceKeys: this.managedSpace.keys});
+        if(this.managedSpace.keys.indexOf(objectKey) === -1)
+            throw new Error("Temp Junk");
+        const subgameSpace = this.managedSpace.release(objectKey);
+        return subgameSpace;
+    }
+
+    static transfer(fromGameSpace, toGameSpace) {
+        Object.values(arguments).forEach(arg => {
+            if(!(arg instanceof GameSpace))
+            throw new Error("transfer(...) arguments must be GameSpace objects")
+        });
+
+        const subSpaceKeyList = fromGameSpace.managedSpace.keys;
+        subSpaceKeyList.forEach(key => {
+            const releasedSubSpace = this.activePhase.release(key);
+            toGameSpace.contain(releasedSubSpace);
+        });
+    }
+
     describe() {
         return {
             options: this.options,

@@ -45,14 +45,15 @@ class GameSimulation {
         this.keys.systemUser = Object.getOwnPropertyNames(this.userManager.manage(systemUser))[0];
         let initResult = this.simulationEventEmitter.emit('initialized');
 
-        console.log({initResult: initResult});
+        //console.log({initResult: initResult});
     }
 
     async watchRules() {
         let i = 0;
-         while(this._activeSession.activePhase !==
+        this.isActive = true;
+        while(this._activeSession.activePhase !==
                 GameSession.PHASES.COMPLETE) {
-            console.log("Loop over the rules over and over");
+            //console.log("Loop over the rules over and over");
             // check if the condition is true
             
             let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
@@ -63,7 +64,7 @@ class GameSimulation {
                 const condition = rule.condition.truthFunction;
                 const boundRuleCondition = condition.bind(this._activeSession);
                 const conditionResult = boundRuleCondition();
-                console.log(`rule ${key}\n${condition}`);
+                //console.log(`rule ${key}\n${condition}`);
 
                 if(conditionResult === undefined)
                     throw new Error(`Game cannot be run, rule ${key} invalid.`)
@@ -74,16 +75,17 @@ class GameSimulation {
                 }
 
                 //rule
-                console.log(`${key}: ${rule.condition.truthfunction}`);
+                //console.log(`${key}: ${rule.condition.truthfunction}`);
             });
 
-            console.log({GS_List: this._gameSystem.rules});
+            //console.log({GS_List: this._gameSystem.rules});
 
             //  - permit the action if it's a rule
             //  - submit the action if it's an aim
             i++;
-            break;
+            if (i > 10000) {console.log("done temp loop"); break;};
         }
+        this.isActive = false;
 
     }
 
@@ -101,6 +103,15 @@ class GameSimulation {
         this._activeSession = new GameSession(this._gameSystem);
         let initResult = this.simulationEventEmitter.emit('sessionStarted');
 
+    }
+
+    killSession() {
+        if (this._activeSession === undefined) {
+            throw new Error("No active Session to kill");
+        }
+        //console.log({KillActivePhase: this._activeSession.activePhase});
+        this._activeSession.activePhase = GameSession.PHASES.COMPLETE;
+        
     }
 
     join(aUser) {
@@ -132,7 +143,7 @@ class GameSimulation {
         return this._options.initialized === true;
     }
     
-    get systemUser() {
+    get isActive() {
         //console.log({suk2:this.keys.systemUser});
         const systemUser = this.userManager.atKey(this.keys.systemUser);
         //console.log({suo: systemUser});

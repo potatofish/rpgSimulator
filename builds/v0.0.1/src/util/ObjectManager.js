@@ -66,6 +66,7 @@ class ObjectManager {
     }
 
     get keys() {
+        console.log({OMKeys: Object.keys(this._managedObjects)});
         return Object.keys(this._managedObjects);
     }
 

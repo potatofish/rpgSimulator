@@ -40,6 +40,30 @@ class GameSession extends GameSpace {
             return this.managedSpace.atKey(this.keys.activePhase);
         }
 
+        set activePhase(phase) {
+            if(Object.values(PHASES).indexOf(phase) === -1)
+                throw new Error(`Phase '${phase}' is not valid. Valid: ${PHASES}`);
+            // create a new phase object
+            let newActivePhase = new GameState(phase);
+
+            // move all subphases to the new phase object
+            
+            const subPhasesKeyList = this.activePhase.managedSpace.keys;
+            console.log({activePhaseSpace: subPhasesKeyList});
+            GameSpace.transfer(this.activePhase, newActivePhase);
+                           
+            // replace the old phase object
+            //console.debug({oldActivePhase: this.atKey(this.keys.activePhase)});
+            const oldActivePhase = this.remove(this.keys.activePhase);
+            const newActivePhaseKey = this.contain(newActivePhase);
+           // console.debug({newActivePhase: this.atKey(this.keys.activePhase)});
+            this.keys.activePhase = newActivePhaseKey;
+            
+            return this.managedSpace.atKey(this.keys.activePhase);
+        }
+
+
+
         get players() {
             console.log(this.managedSpace.list());
         }

@@ -55,6 +55,8 @@ describe('GameSimulation', () => {
 
             aGameSimulation.startSession();
             assert(aGameSimulation._activeSession instanceof GameSession);
+            
+            aGameSimulation.killSession();
         }); 
 
         it('A started GameSimulation Session can be joined', () => {
@@ -84,9 +86,10 @@ describe('GameSimulation', () => {
                 }
                 assert.fail("Joining threw an error that it shouldnt' have.");
             }
+            aGameSimulation.killSession();
         }); 
 
-        it('A joined GameSimulation Session can be played', () => {
+        it('A joined GameSimulation Session can change phases based on rules', () => {
             const aGameSimulation = new GameSimulation();
             const earlyInitMessage = "isInitialized w/o init()";
             assert(!(aGameSimulation.isInitialized), earlyInitMessage);
@@ -140,6 +143,7 @@ describe('GameSimulation', () => {
                 }
                 assert.fail(`Unexpected error.\n\t ${error}`);
             }
+            aGameSimulation.killSession();
         }); 
     });
 
@@ -151,7 +155,7 @@ describe('GameSimulation', () => {
             
             aGameSim.init();
             const suNotManagedMessage = "systemUser not in user manager.";
-            assert(aGameSim.systemUser !== undefined, suNotManagedMessage);
+            assert(aGameSim.isActive !== undefined, suNotManagedMessage);
             
             console.log({tst_pid: process.pid, tst_ppid: process.ppid});
 
@@ -173,11 +177,13 @@ describe('GameSimulation', () => {
             const aGameSystem = new GameSystem();
             const simpleSetupRule = new GameAim(simpleSetupAction,simpleSetupCondition);
             const simpleRuleKey = aGameSystem.add(simpleSetupRule);
+
+            console.log({sysuser: aGameSim.isActive});
             
             aGameSim.load(aGameSystem);
 
             const suNotStartedMessage = "systemUser not active.";
-            assert(aGameSim.systemUser.isActive, suNotStartedMessage);
+            assert(aGameSim.isActive, suNotStartedMessage);
             
         });
     });

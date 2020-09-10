@@ -15,13 +15,20 @@ describe('GameSpace',  () => {
             const aGameSpacePrimary = new GameSpace("Primary");
             const aGameSpaceSecondary = new GameSpace("Secondary");
             aGameSpacePrimary.contain(aGameSpaceSecondary);
-
+            
             let contentsOfPrimary = aGameSpacePrimary.describe().contains;
             let secondaryKey = Object.getOwnPropertyNames(contentsOfPrimary);
             
             //console.debug(contentsOfPrimary[secondaryKey]);
-
+            
             assert.ok(contentsOfPrimary[secondaryKey] instanceof GameSpace);
         });
+
+        it('A GameSpace can have some of it contents removed.', () => {
+        });
+        
+        it('A GameSpace can transfer contents to another GameSpace', () => {
+        });
+
     });
 });
