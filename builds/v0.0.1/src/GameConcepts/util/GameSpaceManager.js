@@ -21,17 +21,48 @@ function toEmojiBase(aNumber) {
         highestPower++;
     }
 
+    let emojiKey = "";
+
     // Keep the whole number part, and multiply the fractional part by the base b.
     let fractional = Math.floor(aNumber / (emojiBaseSize**(highestPower)));
-    let newNumber = aNumber - fractional;
+    let newNumber = aNumber - (fractional*(emojiBaseSize**(highestPower)));
     let emojiChosen = emojis[fractional];
-
-    console.log({aNumber, newNumber, fractional, emojiChosen});
+    emojiKey += emojiChosen;
+    
+    console.log({1: {aNumber, newNumber, highestPower, expo: emojiBaseSize**(highestPower), fractional, emojiChosen}});
+    
+    // Repeat step two, keeping the whole number part (including 0), carrying the fractional part to the next step until only a whole number result is obtained.
+    highestPower--;
+    aNumber = newNumber;
+    fractional = Math.floor(aNumber / (emojiBaseSize**(highestPower)));
+    newNumber = aNumber - (fractional*(emojiBaseSize**(highestPower)));
+    emojiChosen = emojis[fractional];
+    emojiKey += emojiChosen;
+    
+    console.log({2:{aNumber, newNumber, highestPower, expo: emojiBaseSize**(highestPower), fractional, emojiChosen}});
+    
+    highestPower--;
+    aNumber = newNumber;
+    fractional = Math.floor(aNumber / (emojiBaseSize**(highestPower)));
+    newNumber = aNumber - (fractional*(emojiBaseSize**(highestPower)));
+    emojiChosen = emojis[fractional];
+    emojiKey += emojiChosen;
+    
+    console.log({3:{aNumber, newNumber, highestPower, expo: emojiBaseSize**(highestPower), fractional, emojiChosen}});
+    
+    highestPower--;
+    aNumber = newNumber;
+    fractional = Math.floor(aNumber / (emojiBaseSize**(highestPower)));
+    newNumber = aNumber - (fractional*(emojiBaseSize**(highestPower)));
+    emojiChosen = emojis[fractional];
+    emojiKey += emojiChosen;
+    
+    console.log({4:{aNumber, newNumber, highestPower, expo: emojiBaseSize**(highestPower), fractional, emojiChosen}});
+    // Collect all your whole number parts to get your number in base b notation.
+    
+    console.log({emojiKey});
 
     //TODO make the above recursive
-    // Repeat step two, keeping the whole number part (including 0), carrying the fractional part to the next step until only a whole number result is obtained.
-    // Collect all your whole number parts to get your number in base b notation.
-
 }
 
 const ObjectManager = require('../../util/ObjectManager');
