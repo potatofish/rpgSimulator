@@ -27,16 +27,26 @@ class GameSpace extends GameConcept {
         }
         let result = this.managedSpace.manage(object);
         //console.log({containResult: result});
+        const resultKey = Object.getOwnPropertyNames(result)[0];
 
-        return result;
+        return resultKey;
     }
 
     remove(objectKey) {
         console.log({spaceKeys: this.managedSpace.keys});
         if(this.managedSpace.keys.indexOf(objectKey) === -1)
-            throw new Error("Temp Junk");
+            return undefined;
+
         const subgameSpace = this.managedSpace.release(objectKey);
         return subgameSpace;
+        }
+        
+    retrieve(objectKey) {
+        console.log({spaceKeys: this.managedSpace.keys});
+        if(this.managedSpace.keys.indexOf(objectKey) === -1)
+            return undefined;
+            
+        return this.managedSpace.atKey(objectKey)
     }
 
     static transfer(fromGameSpace, toGameSpace) {
