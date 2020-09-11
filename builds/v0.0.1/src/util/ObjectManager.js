@@ -66,16 +66,19 @@ class ObjectManager {
     }
 
     get keys() {
-        console.log({OMKeys: Object.keys(this._managedObjects)});
+        const debugMessage = {
+            "ObjectManager.keys()": Object.keys(this._managedObjects)
+        };
+        //console.log(debugMessage);
         return Object.keys(this._managedObjects);
     }
 
     set seed(seeder) {
         if (typeof seeder !== "function") {
             throw "argument is not function"
-        }s
+        }
         //console.log("setseeder: %s", seeder);
-        this._keySeedingFunction = seeder
+        this._keySeedingFunction = seeder;
     }
 
     seed() {

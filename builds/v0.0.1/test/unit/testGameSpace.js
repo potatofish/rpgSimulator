@@ -22,7 +22,7 @@ describe('GameSpace',  () => {
             //console.debug(contentsOfParent[secondaryKey]);
             
             assert.ok(contentsOfParent[secondaryKey] instanceof GameSpace);
-            assert.deepStrictEqual(contentsOfParent[secondaryKey], aGameSpaceSecondary)
+            assert.deepStrictEqual(contentsOfParent[secondaryKey], aGameSpaceSecondary);
         });
         
         it('A GameSpace can have some of it contents removed.', () => {
@@ -33,39 +33,40 @@ describe('GameSpace',  () => {
             let childSpaceKey = parentSpace.contain(childSpace);
             
             assert(parentSpace.retrieve(childSpaceKey) instanceof GameSpace);
-            assert.deepStrictEqual(parentSpace.retrieve(childSpaceKey), childSpace)
+            assert.deepStrictEqual(parentSpace.retrieve(childSpaceKey), childSpace);
 
             const removedSpace = parentSpace.remove(childSpaceKey);
 
             assert(parentSpace.retrieve(childSpaceKey) === undefined);
-            assert.deepStrictEqual(removedSpace, childSpace)
+            assert.deepStrictEqual(removedSpace, childSpace);
             
         });
         
-        it('A GameSpace can transfer contents to another GameSpace', () => {
+        it('A GameSpace can transfer all its contents to another GameSpace', () => {
             const firstParentSpace = new GameSpace("Parent (First)");
             const secondParentSpace = new GameSpace("Parent (Second)");
             const childSpace = new GameSpace("Child");
             
-            let childSpaceKey = firstParentSpace.contain(childSpace);
+            let initialChildSpaceKey = firstParentSpace.contain(childSpace);
             
+          
+            const childFromFirstParent = firstParentSpace.retrieve(initialChildSpaceKey) ;
+            assert(childFromFirstParent instanceof GameSpace, "Child is not a GameSpace");
+            assert.deepStrictEqual(childFromFirstParent, childSpace, "Childspace is not the same");
             
-            console.log({"label": "before", key: childSpaceKey, "1st" : firstParentSpace.retrieve(childSpaceKey), "2nd" : secondParentSpace.retrieve(childSpaceKey)});
+            // console.log({fps: firstParentSpace.managedSpace, sps: secondParentSpace.managedSpace, });
+            
+            const keyMap = GameSpace.transfer(firstParentSpace, secondParentSpace);
+            const newChildSpaceKey = keyMap[initialChildSpaceKey];
+            
+            // console.log({fps: firstParentSpace.managedSpace, sps: secondParentSpace.managedSpace});
+            
+            const childFromSecondParent = secondParentSpace.retrieve(newChildSpaceKey) ;
+            assert(childFromSecondParent instanceof GameSpace, `Child is not a GameSpace: ${childFromSecondParent}`);
+            assert.deepStrictEqual(childFromSecondParent, childSpace, `Childspaces are no longer the same ${childFromSecondParent, childSpace}`);
 
-            //let contentsOfParent = firstParentSpace.describe().contains;
-            //let secondaryKey = Object.getOwnPropertyNames(contentsOfParent);
-        
-            assert(firstParentSpace.retrieve(childSpaceKey) instanceof GameSpace);
-            assert.deepStrictEqual(firstParentSpace.retrieve(childSpaceKey), childSpace)
-        
-            GameSpace.transfer(firstParentSpace, secondParentSpace);
-
-            console.log({"label": "before", key: childSpaceKey, "1st" : firstParentSpace.retrieve(childSpaceKey), "2nd" : secondParentSpace.retrieve(childSpaceKey)});
-
-            // const removedSpace = aGameSpaceParent.remove(secondaryKey);
-        
-            // assert(contentsOfParent[secondaryKey] === undefined);
-            // assert.deepStrictEqual(removedSpace, aGameSpaceSecondary)
+            const childFromFirstParentAgain = firstParentSpace.retrieve(initialChildSpaceKey) ;
+            assert(childFromFirstParentAgain === undefined, `Childspace was not removed from first Parent: ${childFromFirstParentAgain}`);
         });
         
     });

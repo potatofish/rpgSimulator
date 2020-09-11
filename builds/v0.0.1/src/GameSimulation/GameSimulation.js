@@ -67,7 +67,7 @@ class GameSimulation {
                 //console.log(`rule ${key}\n${condition}`);
 
                 if(conditionResult === undefined)
-                    throw new Error(`Game cannot be run, rule ${key} invalid.`)
+                    throw new Error(`Game cannot be run, rule ${key} invalid.`);
                 
                 if(conditionResult) {
                     const action = rule.action.action;
@@ -83,7 +83,7 @@ class GameSimulation {
             //  - permit the action if it's a rule
             //  - submit the action if it's an aim
             i++;
-            if (i > 10000) {console.log("done temp loop"); break;};
+            if (i > 10000) {console.log("done temp loop"); break;}
         }
         this.isActive = false;
 
@@ -110,7 +110,7 @@ class GameSimulation {
             throw new Error("No active Session to kill");
         }
         //console.log({KillActivePhase: this._activeSession.activePhase});
-        this._activeSession.activePhase = GameSession.PHASES.COMPLETE;
+        this._activeSession.kill();
         
     }
 

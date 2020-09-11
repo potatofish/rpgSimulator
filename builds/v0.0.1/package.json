@@ -4,13 +4,14 @@
   "description": "a game rule (crunch) simulator",
   "main": "index.js",
   "scripts": {
-    "unit": "mocha --recursive './test/unit/testGameSpace.js'",
+    "unit": "mocha --recursive './test/unit/testGameCondition.js'",
     "test": "mocha --recursive './test/unit/*.js'"
   },
   "author": "N.A. Protasivich",
   "license": "MIT",
   "dependencies": {
     "emojis-list": "^3.0.0",
+    "emojis-unicode": "^1.0.1",
     "mocha": "^8.1.3"
   }
 }

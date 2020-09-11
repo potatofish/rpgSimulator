@@ -33,40 +33,81 @@ class GameSpace extends GameConcept {
     }
 
     remove(objectKey) {
-        console.log({spaceKeys: this.managedSpace.keys});
-        if(this.managedSpace.keys.indexOf(objectKey) === -1)
+        const debugLabel = `remove(${objectKey})`;
+        const debugMessage = {};
+        debugMessage[debugLabel] = this.managedSpace.keys;
+        //console.log(debugMessage);
+
+        if (this.managedSpace.keys.indexOf(objectKey) === -1)
             return undefined;
 
         const subgameSpace = this.managedSpace.release(objectKey);
         return subgameSpace;
-        }
+    }
         
     retrieve(objectKey) {
-        console.log({spaceKeys: this.managedSpace.keys});
+        const debugLabel = `retrieve(${objectKey})`;
+        const debugMessage = {};
+        debugMessage[debugLabel] = this.managedSpace.keys;
+        //console.log(debugMessage);
+
         if(this.managedSpace.keys.indexOf(objectKey) === -1)
             return undefined;
             
-        return this.managedSpace.atKey(objectKey)
+        return this.managedSpace.atKey(objectKey);
     }
 
-    static transfer(fromGameSpace, toGameSpace) {
-        Object.values(arguments).forEach(arg => {
+
+    static transfer(fromGameSpace, toGameSpace, scope) {
+        [fromGameSpace, toGameSpace].forEach(arg => {
             if(!(arg instanceof GameSpace))
-            throw new Error("transfer(...) arguments must be GameSpace objects")
+            throw new Error("transfer(...) arguments must be GameSpace objects");
         });
 
-        const subSpaceKeyList = fromGameSpace.managedSpace.keys;
-        subSpaceKeyList.forEach(key => {
-            const releasedSubSpace = this.activePhase.release(key);
-            toGameSpace.contain(releasedSubSpace);
+        //TODO implement individual scopes, right now all is only valid
+        // No scope provided assumes transfer all.
+        const VALID_SCOPES = [undefined, "*"];
+
+        let isScopeValid = false;
+        VALID_SCOPES.forEach(element => { 
+            if(element === scope) {
+                isScopeValid = true;
+                return;
+            }
         });
+
+        if(!(isScopeValid)) {
+            throw new Error(`Invalid scope argument provided: ${scope}`);
+        }
+        
+
+        let keyMap = {};
+        //console.log(fromGameSpace.describe("keys"));
+        const subSpaceKeyList = fromGameSpace.describe("keys");
+        subSpaceKeyList.forEach(key => {
+            const releasedSubSpace = fromGameSpace.remove(key);
+            const newSubSpaceKey = toGameSpace.contain(releasedSubSpace);
+            keyMap[key] = newSubSpaceKey;
+        });
+
+        return keyMap;
     }
 
-    describe() {
-        return {
+    describe(scope) {
+        let description = {
             options: this.options,
             contains: this.managedSpace.list
         };
+
+        if(scope === "keys") {
+            description = Object.getOwnPropertyNames(description.contains);
+        }
+
+        if(scope === "label") {
+            description = this.label;
+        }
+        
+        return description;
     }
 
     get isMobile() {

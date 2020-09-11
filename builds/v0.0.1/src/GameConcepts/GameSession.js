@@ -9,9 +9,16 @@ const PHASES = {
     SETUP: "Set-up Play",
     ACTIVE: "Active Play",
     CLEANUP: "Clean-up Play",
-    COMPLETE: "Completed Play" //shadow phase important for
-    
+    COMPLETE: "Completed Play" //shadow phase important for shutdown
 };
+
+let mapForPHASES = {};
+mapForPHASES[PHASES.SETUP] = {previous: undefined};
+mapForPHASES[PHASES.ACTIVE] = {previous: PHASES.SETUP};
+mapForPHASES[PHASES.CLEANUP] = {previous: PHASES.ACTIVE};
+mapForPHASES[PHASES.COMPLETE] = {previous: PHASES.CLEANUP};
+
+//console.log({mapForPHASES: mapForPHASES});
 
 class GameSession extends GameSpace {
     constructor(aGameSystem) {
@@ -24,10 +31,10 @@ class GameSession extends GameSpace {
 
         let activePhase = new GameState(PHASES.SETUP);
 
-        let results = this.contain(activePhase);
+        let activePhaseKey = this.contain(activePhase);
 
         this.keys = {
-            activePhase : Object.getOwnPropertyNames(results)[0]
+            activePhase : activePhaseKey
         };
 
         //console.log({sessionResult: resultKey});
@@ -37,29 +44,38 @@ class GameSession extends GameSpace {
     }
 
         get activePhase() {
-            return this.managedSpace.atKey(this.keys.activePhase);
+            // console.log({activePhaseKey: this.keys.activePhase});
+            return this.retrieve(this.keys.activePhase);
         }
 
         set activePhase(phase) {
-            if(Object.values(PHASES).indexOf(phase) === -1)
-                throw new Error(`Phase '${phase}' is not valid. Valid: ${PHASES}`);
-            // create a new phase object
-            let newActivePhase = new GameState(phase);
-
-            // move all subphases to the new phase object
+            // Reject if the phase is not valid
+            const newPhaseIndex = Object.keys(mapForPHASES).indexOf(phase);
+            if(newPhaseIndex === -1) {
+                throw new Error(`Phase '${phase}' is not valid. Next Phase is: ${PHASES}`);
+            }
             
+            const expectedActivePhase = mapForPHASES[phase].previous;         
+            if(expectedActivePhase !== this.activePhase.label) {
+                throw new Error(`Cannot transition to ${phase}.`);
+            }
+            console.log(Object.keys(mapForPHASES));
+
+            // create a new phase object & move all subphases to the new phase object
+            let newActivePhase = new GameState(phase);
             const subPhasesKeyList = this.activePhase.managedSpace.keys;
-            console.log({activePhaseSpace: subPhasesKeyList});
             GameSpace.transfer(this.activePhase, newActivePhase);
                            
             // replace the old phase object
-            //console.debug({oldActivePhase: this.atKey(this.keys.activePhase)});
             const oldActivePhase = this.remove(this.keys.activePhase);
             const newActivePhaseKey = this.contain(newActivePhase);
-           // console.debug({newActivePhase: this.atKey(this.keys.activePhase)});
             this.keys.activePhase = newActivePhaseKey;
             
-            return this.managedSpace.atKey(this.keys.activePhase);
+            //return this.managedSpace.atKey(this.keys.activePhase);
+        }
+
+        kill() {
+            mapForPHASES[PHASES.COMPLETE] = {previous: PHASES.CLEANUP};
         }
 
 

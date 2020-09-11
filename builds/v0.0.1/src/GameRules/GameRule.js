@@ -8,10 +8,10 @@ const GameCondition = require('./GameCondition');
 class GameRule {
     constructor(anAction, aCondition) {
         if(!(anAction instanceof GameAction)) {
-            throw new Error(`anAction is not a GameAction: ${anAction}`)
+            throw new Error(`anAction is not a GameAction: ${anAction}`);
         }
         if(!(aCondition instanceof GameCondition)) {
-            throw new Error(`aCondition is not a GameCondition: ${aCondition}`)
+            throw new Error(`aCondition is not a GameCondition: ${aCondition}`);
         }
 
        this._action = anAction;
