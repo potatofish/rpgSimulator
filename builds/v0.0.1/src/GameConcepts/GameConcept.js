@@ -14,7 +14,7 @@ class GameConcept {
             editable: true
         };
         this.description = {
-            label: aLabel
+            _label: aLabel
         };
     }
 
@@ -27,7 +27,14 @@ class GameConcept {
     }
 
     get label() {
-        return this.description.label;
+        return this.description._label;
+    }
+
+    set label(aString) {
+        if(typeof aString !== "string") {
+            throw new Error('Labels must be strings');
+        }
+        this.description._label = aString;
     }
 }
 

@@ -12,6 +12,8 @@
 
 
 const GameConcept = require('../GameConcepts/GameConcept');
+const GameSpace = require('../GameConcepts/GameSpace');
+
 
 class GameAction {
      constructor(aFunction) {
@@ -20,7 +22,7 @@ class GameAction {
             throw new Error(`aFunction is not a function. ${aFunction}`);
         }
         //console.log({aFunction: aFunction});
-        this.actionFunction = aFunction;
+        this._actionFunction = aFunction;
 //        this.targetableAction2 = aFunction.bind(this.targetableAction3);
 
         /*
@@ -43,7 +45,17 @@ class GameAction {
                     //3: this.targetableAction3
        }});
        */
-        return this.actionFunction;
+        return this._actionFunction;
     }
+
+    applyTo(target) {
+        if(!(target instanceof GameSpace)) {
+            throw new Error('Target of application is not GameSpace');
+        }
+        let boundActionFunction = this._actionFunction.bind(target);
+        const result = boundActionFunction();
+        return result;
+    }
+
 }
 module.exports = GameAction;

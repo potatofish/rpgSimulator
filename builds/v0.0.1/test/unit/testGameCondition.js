@@ -29,7 +29,7 @@ describe('GameCondition',  () => {
 
 function testBindToGameSpace() {
     const tempCondtionFunction = function () {
-        return this.label;
+        return this.label === "Foo";
     };
 
     const abasicGameCondition = new GameCondition(tempCondtionFunction);
@@ -39,26 +39,28 @@ function testBindToGameSpace() {
     const gameSpaceLabel = "Foo";
     const aGameSpace = new GameSpace(gameSpaceLabel);
 
+    // binding localls
     let boundConditionFunction = abasicGameCondition.truthFunction.bind(aGameSpace);
     let result = boundConditionFunction();
-    assert(result === gameSpaceLabel);
+
+    // bound internal to the check function
+    assert(abasicGameCondition.checkAgainst(aGameSpace));
+    assert(result);
+    assert(abasicGameCondition.checkAgainst(aGameSpace) === result);
 }
 
 function testBindToGameSession() {
     const tempCondtionFunction = function () {
-        return this.label;
+        return this.label === "Area of Play for FooSystem";
     };
 
     const abasicGameCondition = new GameCondition(tempCondtionFunction);
     assert(abasicGameCondition instanceof GameCondition);
     assert(abasicGameCondition.truthFunction === tempCondtionFunction);
 
-    const gameSpaceLabel = "FooSystem";
-    const aGameSystem = new GameSystem(gameSpaceLabel);
+    const gameSystemLabel = "FooSystem";
+    const aGameSystem = new GameSystem(gameSystemLabel);
 
-    const aGameSpace = new GameSession(aGameSystem);
-
-    let boundConditionFunction = abasicGameCondition.truthFunction.bind(aGameSpace);
-    let result = boundConditionFunction();
-    assert(result === `Area of Play for ${gameSpaceLabel}`);
+    const aGameSession = new GameSession(aGameSystem);
+    assert(abasicGameCondition.checkAgainst(aGameSession));
 }

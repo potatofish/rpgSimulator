@@ -25,6 +25,14 @@ class GameRule {
     get condition() {
         return this._condition;
     }
+
+    checkAgainst(...args) {
+        return this._condition.checkAgainst(...args);
+    }
+
+    applyTo(...args) {
+        return this._action.applyTo(...args);
+    }
 }
 
 module.exports = GameRule;

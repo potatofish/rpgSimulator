@@ -6,6 +6,8 @@ const GameRule = require('../../src/GameRules/GameRule.js');
 const GameAction = require('../../src/GameRules/GameAction.js');
 const GameCondition = require('../../src/GameRules/GameCondition.js');
 const GameSpace = require('../../src/GameConcepts/GameSpace.js');
+const GameSystem = require('../../src/GameRules/GameSystem.js');
+const GameSession = require('../../src/GameConcepts/GameSession.js');
 
 
 describe('GameRule', () => {
@@ -23,33 +25,70 @@ describe('GameRule', () => {
             assert.ok(abasicGameRule instanceof GameRule);
         });
 
-        it('A GameRule can be checked against an aGameSpace', () => {
+        it('A GameRule can be checked against an a GameSpace', () => {
+            testCheckAgainstGameSpace();
+        });
 
-            const basicFunction = () => {
-                console.log("This does nothing");
-            };
-
-            const aGameSpace = new GameSpace("Basic User");
-            
-            const aGameAction = new GameAction(basicFunction);
-            
-            const truthFunction = function () {
-                //console.log({ this: this });
-                return this.label === "Basic User";
-            };
-
-            const aGameCondition = new GameCondition(truthFunction);
-
-            const abasicGameRule = new GameRule(aGameAction, aGameCondition);
-            const ruleCondtion = abasicGameRule.condition.truthFunction;
-            
-            assert.equal(truthFunction, abasicGameRule.condition.truthFunction);
-
-            const boundLocalCondition = truthFunction.bind(aGameSpace);
-            const boundRuleCondition = ruleCondtion.bind(aGameSpace);
-
-            assert(boundLocalCondition());
-            assert(boundRuleCondition());
+        it('A GameRule can be checked against an a GameSession', () => {
+            testCheckAgainstGameSession();
         });
     });
 });
+
+function testCheckAgainstGameSpace() {
+    const tempCondtionFunction = function () {
+        return this.label === "Foo";
+    };
+
+    const tempActionFunction = function () {
+        this.label = "Bar";
+        return true;
+    };
+
+    const aGameCondition = new GameCondition(tempCondtionFunction);
+    assert(aGameCondition instanceof GameCondition);
+    assert(aGameCondition.truthFunction === tempCondtionFunction);
+
+    const aGameAction = new GameAction(tempActionFunction);
+    assert(aGameAction instanceof GameAction);
+    assert(aGameAction._actionFunction === tempActionFunction);
+    
+    const gameSpaceLabel = "Foo";
+    const aGameSpace = new GameSpace(gameSpaceLabel);
+
+    const abasicGameRule = new GameRule(aGameAction, aGameCondition);
+    assert(abasicGameRule.checkAgainst(aGameSpace));
+
+    const actionResult = abasicGameRule.applyTo(aGameSpace);
+    assert(aGameSpace.label === "Bar");
+}
+
+function testCheckAgainstGameSession() {
+    const tempCondtionFunction = function () {
+        return this.label === "Area of Play for FooSystem";
+    };
+
+    const tempActionFunction = function () {
+        this.label = "Bar";
+        return true;
+    };
+
+    const aGameCondition = new GameCondition(tempCondtionFunction);
+    assert(aGameCondition instanceof GameCondition);
+    assert(aGameCondition.truthFunction === tempCondtionFunction);
+
+    const aGameAction = new GameAction(tempActionFunction);
+    assert(aGameAction instanceof GameAction);
+    assert(aGameAction._actionFunction === tempActionFunction);
+    
+    const abasicGameRule = new GameRule(aGameAction, aGameCondition);
+    
+    const gameSystemLabel = "FooSystem";
+    const aGameSystem = new GameSystem(gameSystemLabel);
+    const aGameSession = new GameSession(aGameSystem);
+    
+    assert(abasicGameRule.checkAgainst(aGameSession));
+    
+    const actionResult = abasicGameRule.applyTo(aGameSession);
+    assert(aGameSession.label === "Bar");
+}
