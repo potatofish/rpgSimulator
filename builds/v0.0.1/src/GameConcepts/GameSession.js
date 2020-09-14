@@ -27,7 +27,7 @@ class GameSession extends GameSpace {
         }
 
 
-        super(`Area of Play for ${aGameSystem}`);
+        super(`Area of Play for ${aGameSystem.label}`);
 
         let activePhase = new GameState(PHASES.SETUP);
 
@@ -36,6 +36,8 @@ class GameSession extends GameSpace {
         this.keys = {
             activePhase : activePhaseKey
         };
+
+        this._options = {};
 
         //console.log({sessionResult: resultKey});
 
@@ -59,7 +61,7 @@ class GameSession extends GameSpace {
             if(expectedActivePhase !== this.activePhase.label) {
                 throw new Error(`Cannot transition to ${phase}.`);
             }
-            console.log(Object.keys(mapForPHASES));
+            //console.log(Object.keys(mapForPHASES));
 
             // create a new phase object & move all subphases to the new phase object
             let newActivePhase = new GameState(phase);
@@ -75,7 +77,18 @@ class GameSession extends GameSpace {
         }
 
         kill() {
-            mapForPHASES[PHASES.COMPLETE] = {previous: PHASES.CLEANUP};
+            this._options._kill = true;
+            let backupPhaseMap = {...mapForPHASES};
+            
+            let killablePhaseMap = {};
+            const killedIDX = "Play Killed";
+            killablePhaseMap[killedIDX] = {previous: this.activePhase.label};
+            
+            //console.log({clonePhaseMap: killablePhaseMap, mapForPHASES, activePhase: this.activePhase.label});
+            
+            mapForPHASES = killablePhaseMap;
+            this.activePhase = killedIDX;
+            mapForPHASES = backupPhaseMap;
         }
 
 

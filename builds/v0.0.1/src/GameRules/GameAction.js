@@ -34,7 +34,7 @@ class GameAction {
 
 
     }
-    get action() {
+    get actionFunction() {
         /*
         console.debug({
             onGet: {

@@ -50,9 +50,11 @@ class GameSimulation {
 
     async watchRules() {
         let i = 0;
-        this.isActive = true;
-        while(this._activeSession.activePhase !==
-                GameSession.PHASES.COMPLETE) {
+        //this.isActive = true;
+        let watchCondition = this._activeSession.activePhase !== GameSession.PHASES.COMPLETE;
+        watchCondition = watchCondition || this.isKilled;
+
+        while(watchCondition) {
             //console.log("Loop over the rules over and over");
             // check if the condition is true
             
@@ -60,18 +62,27 @@ class GameSimulation {
 
             ruleKeys.forEach(key => {
                 const rule = this._gameSystem.rules[key];
-
+                
                 const condition = rule.condition.truthFunction;
-                const boundRuleCondition = condition.bind(this._activeSession);
+                console.log(`rule ${key}\n${condition}\n$`);
+                console.log({rule});
+                console.log({condition});
+                console.log({activeSession: this._activeSession});
+                console.log({activePhase: this._activeSession.activePhase});
+                let tempSession = this._activeSession;
+                const boundRuleCondition = condition.bind(tempSession);
                 const conditionResult = boundRuleCondition();
-                //console.log(`rule ${key}\n${condition}`);
-
+                console.log({conditionResult});
+                
                 if(conditionResult === undefined)
-                    throw new Error(`Game cannot be run, rule ${key} invalid.`);
+                throw new Error(`Game cannot be run, rule ${key} invalid.`);
                 
                 if(conditionResult) {
                     const action = rule.action.action;
+                    console.log({action});
                     const boundRuleAction = action.bind(this._activeSession);
+                    const actionResult = boundRuleAction();
+                    console.log({actionResult});
                 }
 
                 //rule
@@ -85,7 +96,7 @@ class GameSimulation {
             i++;
             if (i > 10000) {console.log("done temp loop"); break;}
         }
-        this.isActive = false;
+        //this.isActive = false;
 
     }
 
@@ -148,6 +159,10 @@ class GameSimulation {
         const systemUser = this.userManager.atKey(this.keys.systemUser);
         //console.log({suo: systemUser});
         return systemUser;
+    }
+
+    get isKilled() {
+        return (this._activeSession._options._kill === true);
     }
 
 

@@ -6,8 +6,9 @@ const ObjectManager = require('../util/ObjectManager');
 
 // 2020-08-31 - transitioned System to GameSystem
 class GameSystem {
-    constructor() {
+    constructor(aLabel) {
         this.ruleManager = new GameRuleManager();
+        this._label = aLabel;
     }
 
     get rules() {
@@ -35,6 +36,10 @@ class GameSystem {
 
     remove(existingRule) {
 
+    }
+
+    get label() {
+        return this._label;
     }
 }
 
