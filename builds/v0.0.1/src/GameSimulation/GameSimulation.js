@@ -22,8 +22,8 @@ class GameSimulation {
             console.log(`${aUser} has joined the session`);
         });
 
-        this.simulationEventEmitter.on('sessionStarted', async () => {
-            this.watchRules().then((arg) => {console.log(`???? ${arg}`);});
+        this.simulationEventEmitter.on('sessionStarted', () => {
+            this.watchRules();
         });
 
         this._options = {
@@ -49,26 +49,33 @@ class GameSimulation {
     }
 
     async watchRules() {
+        
         let i = 0;
         //this.isActive = true;
-        let watchCondition = this._activeSession.activePhase !== GameSession.PHASES.COMPLETE;
-        watchCondition = watchCondition || this.isKilled;
+        let endWatchLoop = ()=>{
+            let result = this._activeSession.activePhase !== GameSession.PHASES.COMPLETE;
+            result = result || this.isKilled;
+            return result;
+        }
+    //    console.log({ASOptionsWR1:this._activeSession._options});
 
-        while(watchCondition) {
-            //console.log("Loop over the rules over and over");
-            // check if the condition is true
-            console.log({activePhase: this._activeSession.activePhase.label, dead: this.isKilled});
-            
-            let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
+        let stopLoop = false;
+        while(!(stopLoop)) {
+            // console.log({ASOptionsWR2:this._activeSession._options});
 
-            ruleKeys.forEach(key => {
-                const rule = this._gameSystem.rules[key];
+            await (async () => {
+                let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
+    
+                ruleKeys.forEach(key => {
+                    const rule = this._gameSystem.rules[key];
+    
+                    if(rule.checkAgainst(this._activeSession)) {
+                        rule.applyTo(this._activeSession);
+                    }
+                });
+            })();
 
-                if(rule.checkAgainst(this._activeSession)) {
-                    rule.applyTo(this._activeSession);
-                }
-            });
-            //break;
+            stopLoop = endWatchLoop();
         }
 
 
@@ -94,8 +101,13 @@ class GameSimulation {
         if (this._activeSession === undefined) {
             throw new Error("No active Session to kill");
         }
-        console.log({KillActivePhase: this._activeSession.activePhase});
-        this._activeSession.kill();
+       // console.log({KillActivePhase: this._activeSession.activePhase});
+       
+       this._activeSession.kill();
+       this.userManager.release(this.keys.systemUser);
+       this.keys.systemUser = undefined;
+    //    console.log({ASOptionsKS:this._activeSession._options});
+        // console.log({KillActivePhase: this._activeSession.activePhase});
         
     }
 
@@ -129,14 +141,13 @@ class GameSimulation {
     }
     
     get isActive() {
-        //console.log({suk2:this.keys.systemUser});
-        const systemUser = this.userManager.atKey(this.keys.systemUser);
-        //console.log({suo: systemUser});
-        return systemUser;
+        return this.keys.systemUser !== undefined;
     }
 
     get isKilled() {
+        // console.log({ASOptionsIK:this._activeSession._options});
         return (this._activeSession._options._kill === true);
+
     }
 
 

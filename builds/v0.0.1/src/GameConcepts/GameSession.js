@@ -89,6 +89,8 @@ class GameSession extends GameSpace {
             mapForPHASES = killablePhaseMap;
             this.activePhase = killedIDX;
             mapForPHASES = backupPhaseMap;
+
+            //console.log({activeSession: this, dead: this._options._kill});
         }
 
 
