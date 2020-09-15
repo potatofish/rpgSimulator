@@ -22,8 +22,8 @@ class GameSimulation {
             console.log(`${aUser} has joined the session`);
         });
 
-        this.simulationEventEmitter.on('sessionStarted', () => {
-            this.watchRules();
+        this.simulationEventEmitter.on('sessionStarted', async () => {
+            this.watchRules().then((arg) => {console.log(`???? ${arg}`);});
         });
 
         this._options = {
@@ -57,46 +57,20 @@ class GameSimulation {
         while(watchCondition) {
             //console.log("Loop over the rules over and over");
             // check if the condition is true
+            console.log({activePhase: this._activeSession.activePhase.label, dead: this.isKilled});
             
             let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
 
             ruleKeys.forEach(key => {
                 const rule = this._gameSystem.rules[key];
-                
-                const condition = rule.condition.truthFunction;
-                console.log(`rule ${key}\n${condition}\n$`);
-                console.log({rule});
-                console.log({condition});
-                console.log({activeSession: this._activeSession});
-                console.log({activePhase: this._activeSession.activePhase});
-                let tempSession = this._activeSession;
-                const boundRuleCondition = condition.bind(tempSession);
-                const conditionResult = boundRuleCondition();
-                console.log({conditionResult});
-                
-                if(conditionResult === undefined)
-                throw new Error(`Game cannot be run, rule ${key} invalid.`);
-                
-                if(conditionResult) {
-                    const action = rule.action.action;
-                    console.log({action});
-                    const boundRuleAction = action.bind(this._activeSession);
-                    const actionResult = boundRuleAction();
-                    console.log({actionResult});
+
+                if(rule.checkAgainst(this._activeSession)) {
+                    rule.applyTo(this._activeSession);
                 }
-
-                //rule
-                //console.log(`${key}: ${rule.condition.truthfunction}`);
             });
-
-            //console.log({GS_List: this._gameSystem.rules});
-
-            //  - permit the action if it's a rule
-            //  - submit the action if it's an aim
-            i++;
-            if (i > 10000) {console.log("done temp loop"); break;}
+            //break;
         }
-        //this.isActive = false;
+
 
     }
 
@@ -120,7 +94,7 @@ class GameSimulation {
         if (this._activeSession === undefined) {
             throw new Error("No active Session to kill");
         }
-        //console.log({KillActivePhase: this._activeSession.activePhase});
+        console.log({KillActivePhase: this._activeSession.activePhase});
         this._activeSession.kill();
         
     }
