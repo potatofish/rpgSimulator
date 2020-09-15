@@ -18,8 +18,10 @@ class GameSimulation {
         this.simulationEventEmitter = new SimulationEventEmitter();
 
         this.simulationEventEmitter.on('join', (aUser) => {
+            const joinMessage = `${aUser.name} has joined the session`;
             //TODO output this to a chatbox
-            console.log(`${aUser} has joined the session`);
+            this._dummyChatBox = joinMessage;
+            return joinMessage;
         });
 
         this.simulationEventEmitter.on('sessionStarted', () => {
@@ -33,6 +35,8 @@ class GameSimulation {
         this.keys = {
             systemUser : undefined
         };
+
+        this.writeToChatBox("Simulation Started");
 
     }
 
@@ -126,7 +130,7 @@ class GameSimulation {
         
         this._activeSession.contain(playerForUser);
 
-        let joinResult = this.simulationEventEmitter.emit('join');
+        let joinResult = this.simulationEventEmitter.emit('join', aUser);
         return playerForUser;
     }
 
@@ -148,6 +152,19 @@ class GameSimulation {
         // console.log({ASOptionsIK:this._activeSession._options});
         return (this._activeSession._options._kill === true);
 
+    }
+
+    writeToChatBox(aMessage) {
+        if(typeof aMessage !== "string") {
+            throw new Error('Only strings can be written to chat');
+        }
+        // TODO implement this as a gamespace object
+        // for now just hold the last message to use as a debug feature
+        this._dummyChatBox = aMessage;
+    }
+
+    get lastChatMessage() {
+        return this._dummyChatBox;
     }
 
 

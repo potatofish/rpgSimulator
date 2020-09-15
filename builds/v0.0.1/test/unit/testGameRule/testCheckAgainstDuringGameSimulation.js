@@ -11,12 +11,12 @@ const GameSession = require('../../../src/GameConcepts/GameSession.js');
 const GameSimulation = require('../../../src/GameSimulation/GameSimulation.js');
 
 function testCheckAgainstDuringGameSimulation() {
-    const tempCondtionFunction = function () {
-        // console.log({thisSim: this});
+    const tempCondtionFunction = () => {
         return this.label === "Area of Play for FooSystem";
     };
 
-    const tempActionFunction = function () {
+    const tempActionFunction = () => {
+        this._oldLabel = this.label;
         this.label = "Bar";
         return true;
     };
@@ -34,17 +34,18 @@ function testCheckAgainstDuringGameSimulation() {
     const gameSystemLabel = "FooSystem";
     const aGameSystem = new GameSystem(gameSystemLabel);
     aGameSystem.add(abasicGameRule);
+
     const aGameSimulation = new GameSimulation();
     aGameSimulation.load(aGameSystem);
 
     aGameSimulation.startSession();
-    //const aGameSession = new GameSession(aGameSystem);
-    
-    //assert(abasicGameRule.checkAgainst(aGameSession));
-    
-    //const actionResult = abasicGameRule.applyTo(aGameSession);
+    const activeSession = aGameSimulation._activeSession;
+    assert(activeSession.label === "Bar", `label is ${activeSession.label}`);
+    assert(activeSession._oldLabel === "Area of Play for FooSystem", `_oldLabel is ${activeSession._oldLabel}`);
+
     aGameSimulation.killSession();
-    assert(aGameSimulation.label === "Bar", `label is ${aGameSimulation.label}`);
+    assert(aGameSimulation.isActive === false, "Session is still active");
+    assert(aGameSimulation._activeSession._options._kill === true, "Session is not killed");
 }
 
 exports.testCheckAgainstDuringGameSimulation = testCheckAgainstDuringGameSimulation;

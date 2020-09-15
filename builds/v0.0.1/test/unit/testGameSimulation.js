@@ -14,9 +14,9 @@ describe('GameSimulation', () => {
 
         it('An initialized GameSimulation can load a GameSystem', testSystemLoadable);
 
-         it('A loaded GameSimulation can start a GameSession', testSessionStartable); 
+        it('A loaded GameSimulation can start a GameSession', testSessionStartable); 
 
-        // it('A started GameSimulation Session can be joined', testSessionJoinable); 
+        it('A started GameSimulation Session can be joined', testSessionJoinable); 
     });
 
     describe("this.systemUser", () => {

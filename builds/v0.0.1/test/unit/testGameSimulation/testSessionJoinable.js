@@ -1,3 +1,6 @@
+/*jshint node: true, esversion: 9*/
+'use strict';
+
 const assert = require('assert');
 const { AssertionError } = require('assert');
 const GameSimulation = require('../../../src/GameSimulation/GameSimulation.js');
@@ -23,10 +26,14 @@ const testSessionJoinable = () => {
     aGameSimulation.startSession();
     assert(aGameSimulation._activeSession instanceof GameSession);
 
-    const aUser = new User("Barry Fu");
+    const aUsersName = "Barry Fu";
+    const aUser = new User(aUsersName);
     try {
         const userPlayer = aGameSimulation.join(aUser);
         assert(userPlayer instanceof GamePlayer);
+        
+        const expectedOnJoinChatMessage = `${aUsersName} has joined the session`
+        assert(aGameSimulation.lastChatMessage === expectedOnJoinChatMessage)
     } catch (error) {
         if (error instanceof AssertionError) {
             throw error;

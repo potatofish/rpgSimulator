@@ -34,7 +34,7 @@ describe('GameRule', () => {
             testCheckAgainstGameSession();
         });
 
-        it('A GameRule can be checked against an a GameSession', () => {
+        it('A GameRule can be checked against an a GameSimulation', () => {
             testCheckAgainstDuringGameSimulation();
         });
     });
