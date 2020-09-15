@@ -52,7 +52,7 @@ class GameSimulation {
         //console.log({initResult: initResult});
     }
 
-    async watchRules() {
+    watchRules() {
         
         let i = 0;
         //this.isActive = true;
@@ -67,17 +67,18 @@ class GameSimulation {
         while(!(stopLoop)) {
             // console.log({ASOptionsWR2:this._activeSession._options});
 
-            await (async () => {
-                let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
-    
-                ruleKeys.forEach(key => {
-                    const rule = this._gameSystem.rules[key];
-    
-                    if(rule.checkAgainst(this._activeSession)) {
-                        rule.applyTo(this._activeSession);
-                    }
-                });
-            })();
+            let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
+
+            ruleKeys.forEach( async (key) => {
+                const rule = this._gameSystem.rules[key];
+                // console.log({activeSession: this._activeSession.label});
+                
+                let conditionCheckResult = await rule.checkAgainst(this._activeSession);
+
+                if(conditionCheckResult) {
+                    let actionApplicationResult = await rule.applyTo(this._activeSession);
+                }
+            });
 
             stopLoop = endWatchLoop();
         }

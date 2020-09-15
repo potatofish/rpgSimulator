@@ -24,8 +24,10 @@ class GameCondition {
         if(!(target instanceof GameSpace)) {
             throw new Error('Target of check is not GameSpace');
         }
+        // console.log({GCCheckAgainst: target.label, _conditionFunction: this._conditionFunction});
         let boundConditionFunction = this._conditionFunction.bind(target);
         const result = boundConditionFunction();
+        // console.log({GCResult: result});
         if(typeof result !== "boolean") {
             throw new Error('Function does not return a truth value.');
         }

@@ -1,5 +1,6 @@
 /*jshint node: true, esversion: 9*/
-"use strict";
+'use strict';
+
 
 const assert = require('assert');
 const GameRule = require('../../../src/GameRules/GameRule.js');
@@ -9,11 +10,10 @@ const GameCondition = require('../../../src/GameRules/GameCondition.js');
 const GameSystem = require('../../../src/GameRules/GameSystem.js');
 const GameSession = require('../../../src/GameConcepts/GameSession.js');
 const GameSimulation = require('../../../src/GameSimulation/GameSimulation.js');
-const { toEmojiBase } = require('../../../src/util/BaseConverter.js');
 
-function testCheckAgainstDuringGameSimulation() {
+function testChangeActivePhaseByRule() {
     const tempCondtionFunction = function () {
-        //console.log({this: this});
+        console.log({thisAP: this.activePhase});
         //await this.label;
         return this.label === "Area of Play for FooSystem";
     };
@@ -55,5 +55,4 @@ function testCheckAgainstDuringGameSimulation() {
     assert(aGameSimulation.isActive === false, "Session is still active");
     assert(aGameSimulation._activeSession._options._kill === true, "Session is not killed");
 }
-
-exports.testCheckAgainstDuringGameSimulation = testCheckAgainstDuringGameSimulation;
+exports.testChangeActivePhaseByRule = testChangeActivePhaseByRule;

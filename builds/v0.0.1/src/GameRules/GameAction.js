@@ -52,6 +52,7 @@ class GameAction {
         if(!(target instanceof GameSpace)) {
             throw new Error('Target of application is not GameSpace');
         }
+        // console.log({GAApplyTo: target});
         let boundActionFunction = this._actionFunction.bind(target);
         const result = boundActionFunction();
         return result;
