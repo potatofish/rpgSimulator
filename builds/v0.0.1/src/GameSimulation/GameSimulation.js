@@ -11,6 +11,8 @@ const GameSystem = require('../GameRules/GameSystem.js');
 const User = require('./User.js');
 const SystemUser = require('./SystemUser.js');
 const GameAim = require('../GameRules/GameAim.js');
+const GameAction = require('../GameRules/GameAction.js');
+const GameCondition = require('../GameRules/GameCondition.js');
 
 
 class GameSimulation {
@@ -178,3 +180,40 @@ class GameSimulation {
 }
 
 module.exports = GameSimulation;
+
+const ruleTemplatingFunctions = {};
+ruleTemplatingFunctions.basicPhaseTransitionAims = () => {
+    let arrayOfAims = [ ];
+    
+    const phaseList = Object.values(GameSession.PHASES);
+    phaseList.forEach((phase) => {
+
+        const nextPhaseNameProtyper = function (aPhase) {
+            const functString = `return '${aPhase}';`;
+            const nextPhaseFunction = new Function(functString);
+            return nextPhaseFunction;
+        };
+        // console.log({nppm: `${nextPhaseProtoMaker}`});
+
+        const nextPhaseName = nextPhaseNameProtyper(phase);
+        // console.log({npp: `${nextPhaseProto}`});
+
+        const nextPhase = function () {
+            console.log({npthis: this});
+            let oldPhaseLabel = this.activePhase.label;
+            this.activePhase = nextPhaseName();
+            let newPhaseLabel = this.activePhase.label;
+            return newPhaseLabel === nextPhaseName();
+        };
+
+
+        let nextPhaseAction = new GameAction(nextPhase);
+        let undefinedCondition = new GameCondition(()=>{return false;});
+        arrayOfAims.push(new GameAim(nextPhaseAction, undefinedCondition));
+    });
+
+    return arrayOfAims;
+};
+
+module.exports.TEMPLATES = {};
+module.exports.TEMPLATES.RULES = ruleTemplatingFunctions;

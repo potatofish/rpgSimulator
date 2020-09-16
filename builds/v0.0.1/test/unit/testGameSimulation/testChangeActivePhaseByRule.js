@@ -77,7 +77,6 @@ function testChangeActivePhaseByRule() {
     
     // wait 3s to allow rule to be applied
     setTimeout(playTest, 3000, aGameSimulation);
-    
 }
 
 function playTest(aGameSimulation) {
