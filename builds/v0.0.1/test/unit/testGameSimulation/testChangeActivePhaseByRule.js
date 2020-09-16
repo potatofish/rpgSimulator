@@ -10,12 +10,13 @@ const GameCondition = require('../../../src/GameRules/GameCondition.js');
 const GameSystem = require('../../../src/GameRules/GameSystem.js');
 const GameSession = require('../../../src/GameConcepts/GameSession.js');
 const GameSimulation = require('../../../src/GameSimulation/GameSimulation.js');
+const User = require('../../../src/GameSimulation/User.js');
 
 function testChangeActivePhaseByRule() {
     const tempCondtionFunction = function () {
-        console.log({thisAP: this.activePhase});
+        console.log({thisAP: this.players});
         //await this.label;
-        return this.label === "Area of Play for FooSystem";
+        return this.players >= 1;
     };
 
     const tempActionFunction = function () {
@@ -43,13 +44,25 @@ function testChangeActivePhaseByRule() {
     aGameSimulation.load(aGameSystem);
     
     aGameSimulation.startSession();
-    
-    // console.log({lastChat: aGameSimulation.lastChatMessage});
 
+    const aUser = new User("Barry Fu");
+    const userPlayer = aGameSimulation.join(aUser);
+
+    const currentUsers = Object.values(aGameSimulation.userManager.list);
+
+    assert(currentUsers.length === 2);
+    assert(currentUsers.indexOf(aUser) !== -1);
+
+    const playerKeys = aGameSimulation._activeSession.players;
+    assert(playerKeys.length === 1);
+
+    const playerFromSession = aGameSimulation._activeSession.retrieve(playerKeys[0]);
+    assert.deepStrictEqual(playerFromSession, userPlayer);
+  
     const activeSession = aGameSimulation._activeSession;
     assert(activeSession.label === "Area of Play for FooSystem", `label is ${activeSession.label}`);
-    // assert(activeSession.label === "Bar", `label is ${activeSession.label}`);
-    // assert(activeSession._oldLabel === "Area of Play for FooSystem", `_oldLabel is ${activeSession._oldLabel}`);
+    
+    //aGameSimulation.play();
 
     aGameSimulation.killSession();
     assert(aGameSimulation.isActive === false, "Session is still active");

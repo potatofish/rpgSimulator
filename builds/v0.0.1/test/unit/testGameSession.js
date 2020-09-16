@@ -3,6 +3,8 @@
 
 const assert = require('assert');
 const {AssertionError} = require('assert');
+const GamePlayer = require('../../src/GameConcepts/GamePlayer.js');
+const GameUser = require('../../src/GameSimulation/User.js');
 const GameSession = require('../../src/GameConcepts/GameSession.js');
 const GameSpace = require('../../src/GameConcepts/GameSpace.js');
 const GameState = require('../../src/GameConcepts/GameState.js');
@@ -91,69 +93,29 @@ describe('GameSession',  () => {
                 assert(aGameSession.activePhase.label === "Play Killed");
             }
         });
-        
-        
+
+
         // TODO rethink these tests - these are join session test cases
-        /*
+
         describe('join()', () => {
-        it("A user can't join if GameSimulation is not initialized", () => {
-            const aGameSimulation = new GameSimulation();
-            assert(
-                !(aGameSimulation.isInitialized), 
-                failMessage.initWithoutInit
-            );
-    
-            const aUser = new User();
-            const errorMsg = "Not yet initialized. Try init().";
-            try {
-                aGameSimulation.join(aUser);
-                assert.fail('expected exception not thrown');
-            } catch (e) {
-                // bubble up the assertion error if assert funcs have failed
-                if (e instanceof AssertionError) { throw e; }
-                
-                assert.equal(
-                    e.message,
-                    errorMsg,
-                    failMessage.joinWithoutInit
-                );
-            }
+            it("A player can join a GameSession", testCanPlayerJoin);
         });
-    });
-
-        it("A user can join if GameSimulation is initialized", () => {
-            const aGameSimulation = new GameSimulation();
-            aGameSimulation.init();
-            assert(aGameSimulation.isInitialized);
-            
-            const userName = "aUser";
-            const aUser = new User(userName);
-            const aPlayer = aGameSimulation.join(aUser);
-            
-            assert.equal(aPlayer.label, userName);
-            // assert aPlayer is in aGameSimulation
-            // assert aPlayer in aGameSimulation with same user
-            
-        });
-        
-        // const aGameSystem = new GameSystem();
-        //    const aGameSession = new GameSession(aGameSystem);
-
-        it("The user is given a GamePlayer object", () => {
-            const aGameSimulation = new GameSimulation();
-            aGameSimulation.init();
-            assert(aGameSimulation.isInitialized);
-            
-            const userName = "aUser";
-            const aUser = new User(userName);
-            const aPlayer = aGameSimulation.join(aUser);
-            
-            assert.equal(aPlayer.label, userName);
-            // assert aPlayer is in aGameSimulation
-            // assert aPlayer in aGameSimulation with same user
-            
-        });
-
-        */
     });
 });
+
+function testCanPlayerJoin() {
+    const aGameSystem = new GameSystem();
+    const aGameSession = new GameSession(aGameSystem);
+    
+    assert(aGameSession instanceof GameSession, "Object is not GameSession");
+    assert(aGameSession instanceof GameSpace, "Object is not GameSpace");
+    const aGamePlayer = new GamePlayer(new GameUser("Barry Fu"));
+
+    //console.log({aGamePlayer});
+    aGameSession.join(aGamePlayer);
+    const playerList = aGameSession.players;
+    assert(aGameSession.players.length === 1, "player not added");
+    
+    const playerFromSession = aGameSession.retrieve(playerList[0]);
+    assert(playerFromSession === aGamePlayer, "Player doesn't match");
+}

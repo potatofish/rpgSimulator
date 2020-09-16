@@ -7,7 +7,7 @@ const { testSessionStartable } = require("./testGameSimulation/testSessionStarta
 const { testSessionJoinable } = require("./testGameSimulation/testSessionJoinable");
 
 
-const { testChangeActivePhaseByRule } = require("./testGameSimulation/testChangeActivePhaseByRule");
+const { testChangeActivePhaseByRule } = require("./testGameSimulation/testChangeActivePhaseByRule.js");
 const { testSystemUser } = require("./testGameSimulation/testSystemUser");
 
 describe('GameSimulation', () => {

@@ -4,6 +4,7 @@
 const GameSpace = require('./GameSpace');
 const GameState = require('./GameState');
 const GameSystem = require('../GameRules/GameSystem.js');
+const GamePlayer = require('./GamePlayer');
 
 const PHASES = {
     SETUP: "Set-up Play",
@@ -21,6 +22,7 @@ mapForPHASES[PHASES.COMPLETE] = {previous: PHASES.CLEANUP};
 //console.log({mapForPHASES: mapForPHASES});
 
 class GameSession extends GameSpace {
+    //TODO remove GameSystem from the constructor
     constructor(aGameSystem) {
         if (!(aGameSystem instanceof GameSystem)) {
             throw new Error("Sessions require a GameSystem of rules to play.");
@@ -34,7 +36,8 @@ class GameSession extends GameSpace {
         let activePhaseKey = this.contain(activePhase);
 
         this.keys = {
-            activePhase : activePhaseKey
+            activePhase : activePhaseKey,
+            players: []
         };
 
         this._options = {};
@@ -93,10 +96,23 @@ class GameSession extends GameSpace {
             //console.log({activeSession: this, dead: this._options._kill});
         }
 
+        contain(aSpace) {
+            let spaceKey = super.contain(aSpace);
+
+            if((aSpace instanceof GamePlayer)) {
+                this.keys.players.push(spaceKey);
+            }
+
+            return spaceKey;
+            // console.log({containResult: joinedPlayerKey});
+        }
+
 
 
         get players() {
-            console.log(this.managedSpace.list());
+            // TODO stop making keys external
+            const playerKeys = [].concat(this.keys.players);
+            return playerKeys;
         }
     
 

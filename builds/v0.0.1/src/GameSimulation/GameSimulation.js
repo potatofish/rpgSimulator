@@ -69,14 +69,14 @@ class GameSimulation {
 
             let ruleKeys = Object.getOwnPropertyNames(this._gameSystem.rules);
 
-            ruleKeys.forEach( async (key) => {
+            ruleKeys.forEach((key) => {
                 const rule = this._gameSystem.rules[key];
                 // console.log({activeSession: this._activeSession.label});
                 
-                let conditionCheckResult = await rule.checkAgainst(this._activeSession);
+                let conditionCheckResult = rule.checkAgainst(this._activeSession);
 
                 if(conditionCheckResult) {
-                    let actionApplicationResult = await rule.applyTo(this._activeSession);
+                    let actionApplicationResult = rule.applyTo(this._activeSession);
                 }
             });
 
@@ -97,6 +97,7 @@ class GameSimulation {
         if (this._gameSystem === undefined) {
             throw new Error("No game system defined");
         }
+        this.init();
         this._activeSession = new GameSession(this._gameSystem);
         let initResult = this.simulationEventEmitter.emit('sessionStarted');
 
