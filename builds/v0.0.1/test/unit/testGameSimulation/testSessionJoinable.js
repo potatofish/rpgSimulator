@@ -40,6 +40,15 @@ const testSessionJoinable = () => {
         }
         assert.fail("Joining threw an error that it shouldnt' have.");
     }
-    aGameSimulation.killSession();
+    setTimeout(endTest,5000,aGameSimulation);
+    //endTest(aGameSimulation);
 };
+
+function endTest(aGameSimulation) {
+    aGameSimulation.killSession();
+    //console.log({ASOptions:aGameSimulation._activeSession._options});
+    assert(aGameSimulation.isActive === false, "Session is still active");
+    assert(aGameSimulation._activeSession._options._kill === true, "Session is not killed");
+
+}
 exports.testSessionJoinable = testSessionJoinable;

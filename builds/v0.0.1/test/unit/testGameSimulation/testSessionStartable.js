@@ -23,9 +23,16 @@ const testSessionStartable = () => {
     aGameSimulation.startSession();
     assert(aGameSimulation._activeSession instanceof GameSession);
 
+    setTimeout(endTest,5000,aGameSimulation);
+    //endTest(aGameSimulation);
+};
+
+function endTest(aGameSimulation) {
     aGameSimulation.killSession();
     //console.log({ASOptions:aGameSimulation._activeSession._options});
     assert(aGameSimulation.isActive === false, "Session is still active");
     assert(aGameSimulation._activeSession._options._kill === true, "Session is not killed");
-};
+
+}
 exports.testSessionStartable = testSessionStartable;
+

@@ -3,6 +3,7 @@
 
 const GameRuleManager = require("./util/GameRuleManager");
 const ObjectManager = require('../util/ObjectManager');
+const GameAim = require("./GameAim");
 
 // 2020-08-31 - transitioned System to GameSystem
 class GameSystem {
@@ -19,7 +20,7 @@ class GameSystem {
         return this.ruleManager.listAims();
     }
 
-    add(aNewRule) {
+    add(aNewRule) { 
         return this.ruleManager.manage(aNewRule);
     }
 

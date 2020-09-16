@@ -3,7 +3,7 @@
 
 
 const assert = require('assert');
-const GameRule = require('../../../src/GameRules/GameRule.js');
+const GameAim = require('../../../src/GameRules/GameAim.js');
 const GameAction = require('../../../src/GameRules/GameAction.js');
 const GameCondition = require('../../../src/GameRules/GameCondition.js');
 
@@ -11,17 +11,27 @@ const GameSystem = require('../../../src/GameRules/GameSystem.js');
 const GameSession = require('../../../src/GameConcepts/GameSession.js');
 const GameSimulation = require('../../../src/GameSimulation/GameSimulation.js');
 const User = require('../../../src/GameSimulation/User.js');
+const GameState = require('../../../src/GameConcepts/GameState.js');
 
 function testChangeActivePhaseByRule() {
     const tempCondtionFunction = function () {
-        console.log({thisAP: this.players});
-        //await this.label;
-        return this.players >= 1;
-    };
+        let playerCount = this.players.length;
+        let enoughPlayers = playerCount >= 1;
 
+        let phaseLabel = this.activePhase.label;
+        let inSetup = phaseLabel === GameSession.PHASES.SETUP;
+        // console.log({enoughPlayers, inSetup});
+
+        return enoughPlayers && inSetup;
+    };
+    
     const tempActionFunction = function () {
-        this._oldLabel = this.label;
-        this.label = "Bar";
+        let oldPhaseLabel = this.activePhase.label;
+        this.activePhase = GameSession.PHASES.ACTIVE;
+        
+        let newPhaseLabel = this.activePhase.label;
+        console.log({oldPhaseLabel, newPhaseLabel});
+
         return true;
     };
 
@@ -33,11 +43,13 @@ function testChangeActivePhaseByRule() {
     assert(aGameAction instanceof GameAction);
     assert(aGameAction._actionFunction === tempActionFunction);
     
-    const abasicGameRule = new GameRule(aGameAction, aGameCondition);
+    const abasicGameAim = new GameAim(aGameAction, aGameCondition);
     
     const gameSystemLabel = "FooSystem";
     const aGameSystem = new GameSystem(gameSystemLabel);
-    aGameSystem.add(abasicGameRule);
+    // console.log({testGameAim: abasicGameAim instanceof GameAim});
+
+    aGameSystem.add(abasicGameAim);
 
     const aGameSimulation = new GameSimulation();
     // console.log({lastChat: aGameSimulation.lastChatMessage});
@@ -61,11 +73,29 @@ function testChangeActivePhaseByRule() {
   
     const activeSession = aGameSimulation._activeSession;
     assert(activeSession.label === "Area of Play for FooSystem", `label is ${activeSession.label}`);
+    assert(aGameSimulation._activeSession.activePhase.label === GameSession.PHASES.SETUP);
     
-    //aGameSimulation.play();
+    // wait 3s to allow rule to be applied
+    setTimeout(playTest, 3000, aGameSimulation);
+    
+}
 
+function playTest(aGameSimulation) {
+    const currentPhase = aGameSimulation._activeSession.activePhase.label;
+    //console.log({currentPhase});
+    assert(currentPhase === GameSession.PHASES.ACTIVE);
+    
+    aGameSimulation.play();
+    
+    assert(aGameSimulation.isPlaying);
+    setTimeout(endTest,5000,aGameSimulation);
+}
+
+function endTest(aGameSimulation) {
     aGameSimulation.killSession();
+    //console.log({ASOptions:aGameSimulation._activeSession._options});
     assert(aGameSimulation.isActive === false, "Session is still active");
     assert(aGameSimulation._activeSession._options._kill === true, "Session is not killed");
+
 }
 exports.testChangeActivePhaseByRule = testChangeActivePhaseByRule;
