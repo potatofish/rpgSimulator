@@ -32,18 +32,25 @@ describe('GameSimulation', () => {
             it("3 GameAims are returned", () => {
                 let templateCopy = GameSimulation.TEMPLATES.RULES.basicPhaseTransitionAims();
 
-                templateCopy.forEach((aim) => {
+                console.log({templateCopy});
+                Object.values(templateCopy).forEach((aim) => {
                     assert(aim instanceof GameAim);
-                    console.log({aim});
-                    let action = aim.action;
-                    let actionFunct = action.actionFunction;
-                    const sysLabel = "Dangons & Drungeons";
-                    //console.log({actionFunct: `${actionFunct}`});
-
-                    let ags = new GameSession(new GameSystem(sysLabel));
-                    action.applyTo(ags);
-                    console.log({ap: ags.activePhase.label});
                 });
+            });
+
+            it("ActivePlay Action works on a new session", () => {
+           
+                let transitionToActive = GameSimulation.TEMPLATES.RULES.basicPhaseTransitionAims(GameSession.PHASES.ACTIVE);
+
+                assert(transitionToActive instanceof GameAim);
+                
+                let action = transitionToActive.action;
+                const sysLabel = "Dangons & Drungeons";
+                let ags = new GameSession(new GameSystem(sysLabel));
+                assert(ags.activePhase.label === GameSession.PHASES.SETUP);
+                
+                action.applyTo(ags);
+                assert(ags.activePhase.label === GameSession.PHASES.ACTIVE);
             });
         });
     });

@@ -182,20 +182,35 @@ class GameSimulation {
 module.exports = GameSimulation;
 
 const ruleTemplatingFunctions = {};
-ruleTemplatingFunctions.basicPhaseTransitionAims = () => {
-    let arrayOfAims = [ ];
+ruleTemplatingFunctions.basicPhaseTransitionAims = (targetPhase) => {
+    let basicPhaseTransitionAims = {};
     
-    const phaseList = Object.values(GameSession.PHASES);
+    const phaseList = ((aTargetPhase) => { 
+        let tempPhaseList = Object.values(GameSession.PHASES);
+        if (aTargetPhase === undefined) {
+            //remove initial setup phase, never transitioned to
+            const refinedPhaseList = removeValue(tempPhaseList, [GameSession.PHASES.SETUP, GameSession.PHASES.COMPLETE]);
+            return refinedPhaseList;
+        }
+
+        if(tempPhaseList.indexOf(aTargetPhase) === -1 ) {
+            console.log({vals: tempPhaseList, targ:(aTargetPhase)});
+            throw new Error('invalidPhase');
+        }
+        return [aTargetPhase];
+    })(targetPhase);
+
+
     phaseList.forEach((phase) => {
 
-        const nextPhaseNameProtyper = function (aPhase) {
+        const nextPhaseNamePrototyper = function (aPhase) {
             const functString = `return '${aPhase}';`;
             const nextPhaseFunction = new Function(functString);
             return nextPhaseFunction;
         };
         // console.log({nppm: `${nextPhaseProtoMaker}`});
 
-        const nextPhaseName = nextPhaseNameProtyper(phase);
+        const nextPhaseName = nextPhaseNamePrototyper(phase);
         // console.log({npp: `${nextPhaseProto}`});
 
         const nextPhase = function () {
@@ -209,11 +224,48 @@ ruleTemplatingFunctions.basicPhaseTransitionAims = () => {
 
         let nextPhaseAction = new GameAction(nextPhase);
         let undefinedCondition = new GameCondition(()=>{return false;});
-        arrayOfAims.push(new GameAim(nextPhaseAction, undefinedCondition));
+        basicPhaseTransitionAims[phase]= (new GameAim(nextPhaseAction, undefinedCondition));
     });
 
-    return arrayOfAims;
+
+    return (() => { 
+        if (targetPhase === undefined)
+            return basicPhaseTransitionAims;
+        return basicPhaseTransitionAims[targetPhase];
+    })();
 };
 
 module.exports.TEMPLATES = {};
 module.exports.TEMPLATES.RULES = ruleTemplatingFunctions;
+
+function removeValue(anArray, valuesToRemove) {
+    let refinedArray = [].concat(anArray);
+    let listOfParse = valuesToRemove;
+    
+    if(!(Array.isArray(valuesToRemove))) {
+        listOfParse = [valuesToRemove];
+    }
+
+    console.log({listOfParse});
+
+    listOfParse.forEach(valueToRemove => {
+        const indexToRemove = anArray.indexOf(valueToRemove);
+        console.log({ setupIndex: indexToRemove });
+    
+        const frontOfArray = (() => {
+            if (indexToRemove === 0)
+                return [];
+            return anArray.slice(0, indexToRemove - 1);
+        })();
+    
+        const backOfArray = (() => {
+            if (indexToRemove === (anArray.length - 1))
+                return [];
+            return anArray.slice(indexToRemove + 1);
+        })();
+    
+        refinedArray = frontOfArray.concat(backOfArray);
+    });
+    return refinedArray;
+}
+
