@@ -5,7 +5,6 @@
 const assert = require('assert');
 const TEST_TEMPLATES = require('../TEST_TEMPLATES');
 
-
 const GameAim = require('../../../src/GameRules/GameAim.js');
 const GameAction = require('../../../src/GameRules/GameAction.js');
 const GameCondition = require('../../../src/GameRules/GameCondition.js');
