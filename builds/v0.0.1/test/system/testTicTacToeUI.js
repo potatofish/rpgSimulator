@@ -4,56 +4,43 @@
 const assert = require('assert');
 
 const { AssertionError } = require('assert');
-const GameSession = require('../../src/GameConcepts/GameSession.js');
-const GameState = require('../../src/GameConcepts/GameState.js');
 const GameAim = require('../../src/GameRules/GameAim.js');
-const GameCondition = require('../../src/GameRules/GameCondition.js');
-const GameSystem = require('../../src/GameRules/GameSystem.js');
-const GameSimulation = require('../../src/GameSimulation/GameSimulation.js');
 const User = require('../../src/GameSimulation/User.js');
+const TicTacToeSystem = require("./TicTacToeSystem");
+const tta = require("./ticTacToeAims");
+
 
 
 describe('tictactoe', () => {
-    describe('aims', () => {
-        it('The tictactoe aims are aims', () => {
-            let gs = new GameSystem("Tic Tac Toe");
-            const startActivePlayAim = tttStartActivePlayAim();
-            gs.add(startActivePlayAim);
+    describe('aimTostartActivePlay()', () => {
+        it('The tictactoe aimTostartActivePlay functions', () => {
+            var tttRulesSystem = new TicTacToeSystem();
+            const startActivePlayAim = tta.aimTostartActivePlay();
+
+            console.log({aims: tttRulesSystem.aims});
+            console.log({startActivePlayAim});
+
+            Object.entries(tttRulesSystem.aims).forEach(ruleSystemAim => {
+                const [aimKey, aimValue] = ruleSystemAim; 
+                console.log({aimKey, aimValue, truth: aimValue === startActivePlayAim});
+                console.log({aimAction: aimValue.action, startActiveAction: startActivePlayAim.action, truth: aimValue.action === startActivePlayAim.action});
+                console.log({aimActionFunction: aimValue.action._actionFunction, startActiveActionFunction: startActivePlayAim.action._actionFunction, truth: aimValue.action._actionFunction === startActivePlayAim.action._actionFunction});
+                console.log({aimActionFunctionTS: aimValue.action._actionFunction.toString(), startActiveActionFunctionTS: startActivePlayAim.action._actionFunction.toString(), truth: aimValue.action._actionFunction.toString() === startActivePlayAim.action._actionFunction.toString()});
+            });
+
+            const aimFromRuleSystem = tttRulesSystem.find(startActivePlayAim);
+            //console.log({found});
             
-            const found = gs.find(startActivePlayAim);
-            console.log({found});
-            
-            assert(found !== undefined);
+            assert(startActivePlayAim !== undefined);
+            assert(startActivePlayAim instanceof GameAim);
+            assert(aimFromRuleSystem.isMatch(startActivePlayAim), "not equal");
+            assert.equal(aimFromRuleSystem, startActivePlayAim, "not equal");
+            assert.deepEqual(aimFromRuleSystem, startActivePlayAim, "not deep equal");
+            assert.deepStrictEqual(aimFromRuleSystem, startActivePlayAim, "not deep strict equal");
         });
     });
 });
 
 
-// Active Play begins when 
-//  - currently in setup phase
-//  - two players have joined
-//  - each has added a marker to their possession
-function tttStartActivePlayAim() {
-    // atf: application templating functions
-    const atf = GameSimulation.TEMPLATES.ACTIONS;
-    const aMarker = new GameState("Marker");
 
-    const activePlayLabel = GameSession.PHASES.ACTIVE;
-    const changeToActiveAction = atf.changePhaseAction(activePlayLabel);
 
-    const enoughPlayersWithMarkersInSetup = () => {
-        // ctf: condition templating functions
-        const ctf = GameSimulation.TEMPLATES.CONDITIONS;
-        const enoughPlayersInSetupCondition = ctf.enoughPlayersInSetup(2);
-        const enoughPlayersInSetup = enoughPlayersInSetupCondition.checkAgainst(this);
-
-        const forEachPlayerCondition = ctf.forEachPlayer((player) => {
-            player.posesses(aMarker);
-        });
-        const trueForAllPlayers = forEachPlayerCondition.checkAgainst(this);
-        return enoughPlayersInSetup && trueForAllPlayers;
-    };
-
-    const startActivePlayAim = new GameAim(changeToActiveAction, new GameCondition(enoughPlayersWithMarkersInSetup));
-    return startActivePlayAim;
-}

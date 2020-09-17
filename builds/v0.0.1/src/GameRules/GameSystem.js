@@ -17,7 +17,19 @@ class GameSystem {
     }
 
     get aims() {
-        return this.ruleManager.listAims();
+        let ruleList = this.ruleManager.list;
+        let aimList = {};
+        Object.entries(ruleList).forEach(managedRule => {
+            const [ruleKey, ruleValue] = managedRule;
+            // console.log({ruleKey, ruleValue});
+            if (ruleValue instanceof GameAim) {
+                const sourceAim = {};
+                sourceAim[ruleKey] = ruleValue;
+                Object.assign(aimList, sourceAim);
+            }
+          });
+        // console.log({aimList});
+        return aimList;
     }
 
     add(aNewRule) { 
@@ -33,6 +45,10 @@ class GameSystem {
 
     find(existingRule) {
         let existingRuleKeys = this.ruleManager.keysOf(existingRule);
+        console.log({existingRule, existingRuleKeys});
+        if(existingRuleKeys.length < 1) {
+            throw new Error('Rule Not Found');
+        }
         if(existingRuleKeys.length !== 1) {
             throw new Error('duplicate rules');
         }
@@ -40,6 +56,7 @@ class GameSystem {
         //console.log({existingRuleKeys});
         return this.lookup(existingRuleKeys[0]);
     }
+    
 
     remove(existingRule) {
 

@@ -35,6 +35,13 @@ class GameCondition {
         return (!(!(result)));
     }
 
+    isMatch(anotherCondition) {
+        let aimActionFunctionString= this._conditionFunction.toString();
+        let anotherConditionFunctionString = anotherCondition._conditionFunction.toString();
+        let result = aimActionFunctionString === anotherConditionFunctionString;
+        return result;
+    }
+
 
 }
 

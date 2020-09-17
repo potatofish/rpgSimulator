@@ -43,10 +43,16 @@ class ObjectManager {
         return this._managedObjects[key]
     }
 
-    keysOf(object) {
+    keysOf(objectToFind) {
         let keyList = [];
         this.keys.forEach((key) => {
-            if (this._managedObjects[key] === object) {
+            // console.log({
+            //     key,
+            //     object: this._managedObjects[key],
+            //     objectToFind,
+            //     truth: (this._managedObjects[key] === objectToFind)
+            // });
+            if (this._managedObjects[key] === objectToFind) {
                 keyList.push(key);
             }
         });

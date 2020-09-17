@@ -59,5 +59,12 @@ class GameAction {
         return result;
     }
 
+    isMatch(anotherAction) {
+        let aimActionFunctionString= this._actionFunction.toString();
+        let anotherActionFunctionString = anotherAction._actionFunction.toString();
+        let result = aimActionFunctionString === anotherActionFunctionString;
+        return result;
+    }
+
 }
 module.exports = GameAction;

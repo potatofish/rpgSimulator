@@ -20,6 +20,23 @@ class GameRuleManager extends ObjectManager {
         }
         return super.manage(aRule);
     }
+
+    keysOf(objectToFind) {
+        let keyList = [];
+        this.keys.forEach((key) => {
+            // console.log({
+            //     key,
+            //     object: this._managedObjects[key],
+            //     objectToFind,
+            //     truth: (this._managedObjects[key] === objectToFind)
+            // });
+            if (this._managedObjects[key].isMatch(objectToFind)) {
+                keyList.push(key);
+            }
+        });
+        return keyList;
+    }
+    
 /*
     create(name, method) {
         //console.log(`AM Creation: ${name} : %s`, method);

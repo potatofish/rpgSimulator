@@ -33,6 +33,15 @@ class GameRule {
     applyTo(...args) {
         return this._action.applyTo(...args);
     }
+
+    isMatch(anotherGameRule) {
+        if(!(anotherGameRule instanceof GameRule))
+            return false;
+        
+        let result = this.action.isMatch(anotherGameRule.action);
+        result = result && this.condition.isMatch(anotherGameRule.condition);
+        return result;
+    }
 }
 
 module.exports = GameRule;
