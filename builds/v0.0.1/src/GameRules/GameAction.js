@@ -55,7 +55,7 @@ class GameAction {
         //  console.log({GAApplyTo: target});
         let boundActionFunction = this._actionFunction.bind(target);
         const result = boundActionFunction();
-        console.log({applyToResult: result});
+        // console.log({applyToResult: result});
         return result;
     }
 
