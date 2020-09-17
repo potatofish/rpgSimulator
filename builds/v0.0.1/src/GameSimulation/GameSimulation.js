@@ -205,7 +205,7 @@ ruleTemplatingFunctions.getChangePhaseAims = (targetPhase) => {
     phaseList.forEach((phase) => {
         let atf = actionTemplatingFunctions;
         let ctf = conditionTemplatingFunctions;
-        let nextPhaseAction = atf.getChangePhaseAction(phase);
+        let nextPhaseAction = atf.changePhaseAction(phase);
         let falseCondition = ctf.getFalseCondition();
         resultAims[phase]= (new GameAim(nextPhaseAction, falseCondition));
     });
@@ -219,7 +219,7 @@ ruleTemplatingFunctions.getChangePhaseAims = (targetPhase) => {
 };
 
 const actionTemplatingFunctions = {};
-actionTemplatingFunctions.getChangePhaseAction = (targetPhase) => {
+actionTemplatingFunctions.changePhaseAction = (targetPhase) => {
     let tempPhaseList = Object.values(GameSession.PHASES);
     if(tempPhaseList.indexOf(targetPhase) === -1 ) {
         console.log({vals: tempPhaseList, targ:(targetPhase)});

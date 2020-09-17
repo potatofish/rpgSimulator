@@ -32,7 +32,13 @@ class GameSystem {
     }
 
     find(existingRule) {
+        let existingRuleKeys = this.ruleManager.keysOf(existingRule);
+        if(existingRuleKeys.length !== 1) {
+            throw new Error('duplicate rules');
+        }
 
+        //console.log({existingRuleKeys});
+        return this.lookup(existingRuleKeys[0]);
     }
 
     remove(existingRule) {
