@@ -41,7 +41,7 @@ function testChangeActivePhaseByRule(done) {
     const currentUsers = Object.values(aGameSimulation.userManager.list);
 
     assert.deepStrictEqual(currentUsers.length, 2);             // systemUser and aUser
-    assert.deepStrictEqual(currentUsers.indexOf(aUser) !== -1);
+    assert(currentUsers.indexOf(aUser) >= 0);
 
     const playerKeys = aGameSimulation._activeSession.players;
     assert.deepStrictEqual(playerKeys.length, 1);
