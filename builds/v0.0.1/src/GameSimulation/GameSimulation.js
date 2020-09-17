@@ -246,7 +246,7 @@ conditionTemplatingFunctions.getFalseCondition = () => {
     return new GameCondition(() => { return false; });
 };
 
-conditionTemplatingFunctions.getEnoughPlayersCondition = (neededPlayers) => {
+conditionTemplatingFunctions.enoughPlayers = (neededPlayers) => {
     if(typeof neededPlayers !== "number") {
         throw new Error('bad argument');
     }
@@ -278,6 +278,23 @@ conditionTemplatingFunctions.getInPhaseCondition = (targetPhase) => {
     };
 
     return new GameCondition(isPhase);
+};
+conditionTemplatingFunctions.enoughPlayersInSetup = (neededPlayers) => {
+    const functString = `return '${neededPlayers}';`;
+    const neededPlayersVolume = new Function(functString);
+
+    const enoughPlayersInSetup = function () {
+        const ctf = GameSimulation.TEMPLATES.CONDITIONS;
+        let neededPlayerCount = parseInt(neededPlayersVolume());
+        let enoughPlayersCondition = ctf.enoughPlayers(neededPlayerCount);
+        let enoughPlayers = enoughPlayersCondition.checkAgainst(this);
+
+        let phaseInSetup = ctf.getInPhaseCondition(GameSession.PHASES.SETUP);
+        let inSetup = phaseInSetup.checkAgainst(this);
+        return enoughPlayers && inSetup;
+    };
+
+    return new GameCondition(enoughPlayersInSetup);
 };
 
 module.exports.TEMPLATES = {};

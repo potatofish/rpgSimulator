@@ -26,7 +26,7 @@ describe('GameSimulation', () => {
 
         it('A started GameSimulation Session can be joined', testSessionJoinable); 
         
-        it('A started GameSimulation Session can be played', testChangeActivePhaseByRule); 
+        it('A started GameSimulation Session can be played', testChangeActivePhaseByRule).timeout(5000); 
     });
 
     describe("GameSimulation.TEMPLATES.RULES", () => {
