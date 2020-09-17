@@ -1,6 +1,8 @@
 /*jshint node: true, esversion: 9*/
 "use strict";
 const assert = require('assert');
+const TEST_TEMPLATES = require('./TEST_TEMPLATES');
+
 const { testNewIsNotInit } = require("./testGameSimulation/testNewIsNotInit");
 const { testSystemLoadable } = require("./testGameSimulation/testSystemLoadable");
 const { testSessionStartable } = require("./testGameSimulation/testSessionStartable");
@@ -27,12 +29,12 @@ describe('GameSimulation', () => {
         it('A started GameSimulation Session can be played', testChangeActivePhaseByRule); 
     });
 
-    describe("ruleTemplatingFunctions", () => {
+    describe("GameSimulation.TEMPLATES.RULES", () => {
         describe("basicPhaseTransitionAims", () => {
             it("3 GameAims are returned", () => {
-                let templateCopy = GameSimulation.TEMPLATES.RULES.basicPhaseTransitionAims();
+                let templateCopy = GameSimulation.TEMPLATES.RULES.getChangePhaseAims();
 
-                console.log({templateCopy});
+                // console.log({templateCopy});
                 Object.values(templateCopy).forEach((aim) => {
                     assert(aim instanceof GameAim);
                 });
@@ -40,18 +42,21 @@ describe('GameSimulation', () => {
 
             it("ActivePlay Action works on a new session", () => {
            
-                let transitionToActive = GameSimulation.TEMPLATES.RULES.basicPhaseTransitionAims(GameSession.PHASES.ACTIVE);
+                let transitionToActive = GameSimulation.TEMPLATES.RULES.getChangePhaseAims(GameSession.PHASES.ACTIVE);
 
                 assert(transitionToActive instanceof GameAim);
                 
                 let action = transitionToActive.action;
-                const sysLabel = "Dangons & Drungeons";
+                const sysLabel = TEST_TEMPLATES.LABELS.SYSTEM;
                 let ags = new GameSession(new GameSystem(sysLabel));
                 assert(ags.activePhase.label === GameSession.PHASES.SETUP);
                 
                 action.applyTo(ags);
                 assert(ags.activePhase.label === GameSession.PHASES.ACTIVE);
             });
+
+            // TODO it("Actions match TEMPLATE.ACTIONS")
+            // TODO it("Conditions match TEMPLATE.CONDITIONS")
         });
     });
 });

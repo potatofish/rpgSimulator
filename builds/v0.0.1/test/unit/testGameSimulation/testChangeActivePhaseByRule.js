@@ -15,35 +15,26 @@ const GameState = require('../../../src/GameConcepts/GameState.js');
 
 function testChangeActivePhaseByRule() {
     const tempCondtionFunction = function () {
-        let playerCount = this.players.length;
-        let enoughPlayers = playerCount >= 1;
+        const ctf = GameSimulation.TEMPLATES.CONDITIONS;
+        let enoughPlayersCondition = ctf.getEnoughPlayersCondition(1);
+        let enoughPlayers = enoughPlayersCondition.checkAgainst(this);
 
-        let phaseLabel = this.activePhase.label;
-        let inSetup = phaseLabel === GameSession.PHASES.SETUP;
-        // console.log({enoughPlayers, inSetup});
-
+        let phaseInSetup = ctf.getInPhaseCondition(GameSession.PHASES.SETUP);
+        let inSetup = phaseInSetup.checkAgainst(this);
         return enoughPlayers && inSetup;
     };
     
-    const tempActionFunction = function () {
-        let oldPhaseLabel = this.activePhase.label;
-        this.activePhase = GameSession.PHASES.ACTIVE;
-        
-        let newPhaseLabel = this.activePhase.label;
-        console.log({oldPhaseLabel, newPhaseLabel});
-
-        return true;
-    };
+    const atf = GameSimulation.TEMPLATES.ACTIONS;
+    let activePlayLabel = GameSession.PHASES.ACTIVE;
+    let changePhaseToActivePlay = atf.getChangePhaseAction(activePlayLabel);
+    assert(changePhaseToActivePlay instanceof GameAction);
+    
 
     const aGameCondition = new GameCondition(tempCondtionFunction);
     assert(aGameCondition instanceof GameCondition);
     assert(aGameCondition.truthFunction === tempCondtionFunction);
-
-    const aGameAction = new GameAction(tempActionFunction);
-    assert(aGameAction instanceof GameAction);
-    assert(aGameAction._actionFunction === tempActionFunction);
     
-    const abasicGameAim = new GameAim(aGameAction, aGameCondition);
+    const abasicGameAim = new GameAim(changePhaseToActivePlay, aGameCondition);
     
     const gameSystemLabel = "FooSystem";
     const aGameSystem = new GameSystem(gameSystemLabel);
