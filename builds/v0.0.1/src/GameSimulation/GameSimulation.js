@@ -13,6 +13,7 @@ const SystemUser = require('./SystemUser.js');
 const GameAim = require('../GameRules/GameAim.js');
 const GameAction = require('../GameRules/GameAction.js');
 const GameCondition = require('../GameRules/GameCondition.js');
+const { removeFromArray } = require("./removeFromArray");
 
 
 class GameSimulation {
@@ -182,14 +183,14 @@ class GameSimulation {
 module.exports = GameSimulation;
 
 const ruleTemplatingFunctions = {};
-ruleTemplatingFunctions.basicPhaseTransitionAims = (targetPhase) => {
-    let basicPhaseTransitionAims = {};
+ruleTemplatingFunctions.getChangePhaseAims = (targetPhase) => {
+    let resultAims = {};
     
     const phaseList = ((aTargetPhase) => { 
         let tempPhaseList = Object.values(GameSession.PHASES);
         if (aTargetPhase === undefined) {
             //remove initial setup phase, never transitioned to
-            const refinedPhaseList = removeValue(tempPhaseList, [GameSession.PHASES.SETUP, GameSession.PHASES.COMPLETE]);
+            const refinedPhaseList = removeFromArray(tempPhaseList, [GameSession.PHASES.SETUP, GameSession.PHASES.COMPLETE]);
             return refinedPhaseList;
         }
 
@@ -202,70 +203,86 @@ ruleTemplatingFunctions.basicPhaseTransitionAims = (targetPhase) => {
 
 
     phaseList.forEach((phase) => {
-
-        const nextPhaseNamePrototyper = function (aPhase) {
-            const functString = `return '${aPhase}';`;
-            const nextPhaseFunction = new Function(functString);
-            return nextPhaseFunction;
-        };
-        // console.log({nppm: `${nextPhaseProtoMaker}`});
-
-        const nextPhaseName = nextPhaseNamePrototyper(phase);
-        // console.log({npp: `${nextPhaseProto}`});
-
-        const nextPhase = function () {
-            console.log({npthis: this});
-            let oldPhaseLabel = this.activePhase.label;
-            this.activePhase = nextPhaseName();
-            let newPhaseLabel = this.activePhase.label;
-            return newPhaseLabel === nextPhaseName();
-        };
-
-
-        let nextPhaseAction = new GameAction(nextPhase);
-        let undefinedCondition = new GameCondition(()=>{return false;});
-        basicPhaseTransitionAims[phase]= (new GameAim(nextPhaseAction, undefinedCondition));
+        let atf = actionTemplatingFunctions;
+        let ctf = conditionTemplatingFunctions;
+        let nextPhaseAction = atf.getChangePhaseAction(phase);
+        let falseCondition = ctf.getFalseCondition();
+        resultAims[phase]= (new GameAim(nextPhaseAction, falseCondition));
     });
-
-
+    
+    
     return (() => { 
         if (targetPhase === undefined)
-            return basicPhaseTransitionAims;
-        return basicPhaseTransitionAims[targetPhase];
+            return resultAims;
+        return resultAims[targetPhase];
     })();
+};
+
+const actionTemplatingFunctions = {};
+actionTemplatingFunctions.getChangePhaseAction = (targetPhase) => {
+    let tempPhaseList = Object.values(GameSession.PHASES);
+    if(tempPhaseList.indexOf(targetPhase) === -1 ) {
+        console.log({vals: tempPhaseList, targ:(targetPhase)});
+        throw new Error('invalidPhase');
+    }
+    
+    const functString = `return '${targetPhase}';`;
+    const nextPhaseName = new Function(functString);
+    
+    const nextPhase = function () {
+        let oldPhaseLabel = this.activePhase.label;
+        this.activePhase = nextPhaseName();
+        let newPhaseLabel = this.activePhase.label;
+        return newPhaseLabel === nextPhaseName();
+    };
+    
+    const nextPhaseAction = new GameAction(nextPhase);
+    
+    return nextPhaseAction;
+};
+
+const conditionTemplatingFunctions = {};
+conditionTemplatingFunctions.getFalseCondition = () => {
+    return new GameCondition(() => { return false; });
+};
+
+conditionTemplatingFunctions.getEnoughPlayersCondition = (neededPlayers) => {
+    if(typeof neededPlayers !== "number") {
+        throw new Error('bad argument');
+    }
+    
+    const functString = `return '${neededPlayers}';`;
+    const neededPlayersVolume = new Function(functString);
+
+    const enoughPlayers = function () {
+        let playerCount = this.players.length;
+        let enoughPlayers = playerCount >= neededPlayersVolume();
+        return enoughPlayers;
+    };
+
+    return new GameCondition(enoughPlayers);
+};
+
+conditionTemplatingFunctions.getInPhaseCondition = (targetPhase) => {
+    let tempPhaseList = Object.values(GameSession.PHASES);
+    if(tempPhaseList.indexOf(targetPhase) === -1 ) {
+        console.log({vals: tempPhaseList, targ:(targetPhase)});
+        throw new Error('invalidPhase');
+    }
+    
+    const functString = `return '${targetPhase}';`;
+    const expectedPhaseName = new Function(functString);
+
+    const isPhase = function () {
+        return this.activePhase.label === expectedPhaseName();
+    };
+
+    return new GameCondition(isPhase);
 };
 
 module.exports.TEMPLATES = {};
 module.exports.TEMPLATES.RULES = ruleTemplatingFunctions;
+module.exports.TEMPLATES.ACTIONS = actionTemplatingFunctions;
+module.exports.TEMPLATES.CONDITIONS = conditionTemplatingFunctions;
 
-function removeValue(anArray, valuesToRemove) {
-    let refinedArray = [].concat(anArray);
-    let listOfParse = valuesToRemove;
-    
-    if(!(Array.isArray(valuesToRemove))) {
-        listOfParse = [valuesToRemove];
-    }
-
-    console.log({listOfParse});
-
-    listOfParse.forEach(valueToRemove => {
-        const indexToRemove = anArray.indexOf(valueToRemove);
-        console.log({ setupIndex: indexToRemove });
-    
-        const frontOfArray = (() => {
-            if (indexToRemove === 0)
-                return [];
-            return anArray.slice(0, indexToRemove - 1);
-        })();
-    
-        const backOfArray = (() => {
-            if (indexToRemove === (anArray.length - 1))
-                return [];
-            return anArray.slice(indexToRemove + 1);
-        })();
-    
-        refinedArray = frontOfArray.concat(backOfArray);
-    });
-    return refinedArray;
-}
 
