@@ -4,7 +4,8 @@
   "description": "a game rule (crunch) simulator",
   "main": "index.js",
   "scripts": {
-    "unit": "mocha --recursive './test/system/testTicTacToeUI.js'",
+    "system": "mocha --recursive './test/system/testTicTacToeUI.js'",
+    "unit": "mocha --recursive './test/unit/testGameCondition.js'",
     "test": "mocha --recursive './test/unit/*.js'"
   },
   "author": "N.A. Protasivich",

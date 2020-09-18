@@ -36,6 +36,10 @@ class GameRuleManager extends ObjectManager {
         });
         return keyList;
     }
+
+    strictKeysOf(objectToFind) {
+        return super.keysOf(objectToFind);
+    }
     
 /*
     create(name, method) {

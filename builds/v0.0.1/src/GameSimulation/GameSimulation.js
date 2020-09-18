@@ -12,8 +12,9 @@ const User = require('./User.js');
 const SystemUser = require('./SystemUser.js');
 const GameAim = require('../GameRules/GameAim.js');
 const GameAction = require('../GameRules/GameAction.js');
-const GameCondition = require('../GameRules/GameCondition.js');
+// const = require('../GameRules/GameCondition.js');
 const { removeFromArray } = require("./removeFromArray");
+const conditionTemplatingFunctions = require("./util/conditionTemplatingFunctions");
 
 
 class GameSimulation {
@@ -180,6 +181,8 @@ class GameSimulation {
 
 }
 
+exports.GameSimulation = GameSimulation;
+
 module.exports = GameSimulation;
 
 const ruleTemplatingFunctions = {};
@@ -206,7 +209,7 @@ ruleTemplatingFunctions.getChangePhaseAims = (targetPhase) => {
         let atf = actionTemplatingFunctions;
         let ctf = conditionTemplatingFunctions;
         let nextPhaseAction = atf.changePhaseAction(phase);
-        let falseCondition = ctf.getFalseCondition();
+        let falseCondition = ctf.isAlwaysFalse();
         resultAims[phase]= (new GameAim(nextPhaseAction, falseCondition));
     });
     
@@ -239,62 +242,6 @@ actionTemplatingFunctions.changePhaseAction = (targetPhase) => {
     const nextPhaseAction = new GameAction(nextPhase);
     
     return nextPhaseAction;
-};
-
-const conditionTemplatingFunctions = {};
-conditionTemplatingFunctions.getFalseCondition = () => {
-    return new GameCondition(() => { return false; });
-};
-
-conditionTemplatingFunctions.enoughPlayers = (neededPlayers) => {
-    if(typeof neededPlayers !== "number") {
-        throw new Error('bad argument');
-    }
-    
-    const functString = `return '${neededPlayers}';`;
-    const neededPlayersVolume = new Function(functString);
-
-    const enoughPlayers = function () {
-        let playerCount = this.players.length;
-        let enoughPlayers = playerCount >= neededPlayersVolume();
-        return enoughPlayers;
-    };
-
-    return new GameCondition(enoughPlayers);
-};
-
-conditionTemplatingFunctions.getInPhaseCondition = (targetPhase) => {
-    let tempPhaseList = Object.values(GameSession.PHASES);
-    if(tempPhaseList.indexOf(targetPhase) === -1 ) {
-        console.log({vals: tempPhaseList, targ:(targetPhase)});
-        throw new Error('invalidPhase');
-    }
-    
-    const functString = `return '${targetPhase}';`;
-    const expectedPhaseName = new Function(functString);
-
-    const isPhase = function () {
-        return this.activePhase.label === expectedPhaseName();
-    };
-
-    return new GameCondition(isPhase);
-};
-conditionTemplatingFunctions.enoughPlayersInSetup = (neededPlayers) => {
-    const functString = `return '${neededPlayers}';`;
-    const neededPlayersVolume = new Function(functString);
-
-    const enoughPlayersInSetup = function () {
-        const ctf = GameSimulation.TEMPLATES.CONDITIONS;
-        let neededPlayerCount = parseInt(neededPlayersVolume());
-        let enoughPlayersCondition = ctf.enoughPlayers(neededPlayerCount);
-        let enoughPlayers = enoughPlayersCondition.checkAgainst(this);
-
-        let phaseInSetup = ctf.getInPhaseCondition(GameSession.PHASES.SETUP);
-        let inSetup = phaseInSetup.checkAgainst(this);
-        return enoughPlayers && inSetup;
-    };
-
-    return new GameCondition(enoughPlayersInSetup);
 };
 
 module.exports.TEMPLATES = {};

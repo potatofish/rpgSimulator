@@ -3,8 +3,6 @@
 
 const GameSpace = require("../GameConcepts/GameSpace");
 
-GameSpace
-
 class GameCondition {
     constructor(aTruthFunction) {
 
@@ -21,13 +19,16 @@ class GameCondition {
     }
 
     checkAgainst(target) {
+        console.log(`check ${this._conditionFunction.name} against ${target}`);
+        console.log(`${target.label} has properties ${Object.getOwnPropertyNames(target)}`);
+
         if(!(target instanceof GameSpace)) {
-            throw new Error('Target of check is not GameSpace');
+            throw new Error(`Target of check is not GameSpace: ${target}`);
         }
-        // console.log({GCCheckAgainst: target.label, _conditionFunction: this._conditionFunction});
+        console.log({GCCheckAgainst: target.label, _conditionFunction: this._conditionFunction});
         let boundConditionFunction = this._conditionFunction.bind(target);
         const result = boundConditionFunction();
-        // console.log({GCResult: result});
+        console.log({GCResult: result});
         if(typeof result !== "boolean") {
             throw new Error('Function does not return a truth value.');
         }

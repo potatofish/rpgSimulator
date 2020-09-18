@@ -45,7 +45,7 @@ class GameSystem {
 
     find(existingRule) {
         let existingRuleKeys = this.ruleManager.keysOf(existingRule);
-        console.log({existingRule, existingRuleKeys});
+        // console.log({existingRule, existingRuleKeys});
         if(existingRuleKeys.length < 1) {
             throw new Error('Rule Not Found');
         }
