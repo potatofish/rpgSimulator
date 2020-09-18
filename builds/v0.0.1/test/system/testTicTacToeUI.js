@@ -13,7 +13,7 @@ const tta = require("./ticTacToeAims");
 
 describe('tictactoe', () => {
     describe('aimTostartActivePlay()', () => {
-        it('The tictactoe aimTostartActivePlay functions', () => {
+        it('The tictactoe aimTostartActivePlay -functions', () => {
             var tttRulesSystem = new TicTacToeSystem();
             const startActivePlayAim = tta.aimTostartActivePlay();
 
@@ -22,10 +22,16 @@ describe('tictactoe', () => {
 
             Object.entries(tttRulesSystem.aims).forEach(ruleSystemAim => {
                 const [aimKey, aimValue] = ruleSystemAim; 
-                console.log({aimKey, aimValue, truth: aimValue === startActivePlayAim});
-                console.log({aimAction: aimValue.action, startActiveAction: startActivePlayAim.action, truth: aimValue.action === startActivePlayAim.action});
-                console.log({aimActionFunction: aimValue.action._actionFunction, startActiveActionFunction: startActivePlayAim.action._actionFunction, truth: aimValue.action._actionFunction === startActivePlayAim.action._actionFunction});
-                console.log({aimActionFunctionTS: aimValue.action._actionFunction.toString(), startActiveActionFunctionTS: startActivePlayAim.action._actionFunction.toString(), truth: aimValue.action._actionFunction.toString() === startActivePlayAim.action._actionFunction.toString()});
+
+                const aimIsMatch = aimValue === startActivePlayAim;
+                const aimActionIsMatch = aimValue.action === startActivePlayAim.action;
+                const aimActionFunctionIsMatch = aimValue.action._actionFunction === startActivePlayAim.action._actionFunction;
+                const aimActionFunctionStringIsMatch = aimValue.action._actionFunction.toString() === startActivePlayAim.action._actionFunction.toString();
+                
+                console.log({aimIsMatch: aimValue === startActivePlayAim});
+                console.log({aimActionIsMatch: aimValue.action === startActivePlayAim.action});
+                console.log({aimActionFunctionIsMatch: aimValue.action._actionFunction === startActivePlayAim.action._actionFunction});
+                console.log({aimActionFunctionStringIsMatch});
             });
 
             const aimFromRuleSystem = tttRulesSystem.find(startActivePlayAim);
