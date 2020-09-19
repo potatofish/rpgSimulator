@@ -37,8 +37,8 @@ function twoPlayersWithMarkersInSetup() {
     
 
     //TODO stop using quick formatting =>
-    const checkPossessMarker = function () {
-        console.log({ checkPossessMarker: this.label });
+    const possessesMarker = function () {
+        // console.log({ checkPossessMarker: this.label });
         if (!(this instanceof GamePlayer)) {
             throw new Error("this isn't a GamePlayer");
         }
@@ -47,10 +47,10 @@ function twoPlayersWithMarkersInSetup() {
         //return false;
     };
 
-    const playerHasMarker = new GameCondition(checkPossessMarker);
+    const playerHasMarker = new GameCondition(possessesMarker);
 
     const forEachPlayerCondition = ctf.forEachPlayer(playerHasMarker);
-    console.log({forEachPlayerCondition});
+    // console.log({forEachPlayerCondition});
 
     const trueForAllPlayers = forEachPlayerCondition.checkAgainst(this);
     return enoughPlayersInSetup && trueForAllPlayers;

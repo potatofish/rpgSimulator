@@ -47,6 +47,7 @@ describe('tictactoe', () => {
 
                 const aimCondition = startActivePlayAim.condition;
                 const aimConditionResult = aimCondition.checkAgainst(session);
+                console.log("\n");
                 
                 assert(aimConditionResult === false, "Players Not Yet Added");
 
@@ -57,6 +58,7 @@ describe('tictactoe', () => {
                 const playerTic = aGameSimulation.join(userTic);
 
                 const aimConditionResult2 = aimCondition.checkAgainst(session);
+                console.log("\n");
                 assert(aimConditionResult2 === false, "Players Not Given Markers");
                 
                 const markerX = new GameSpace("Marker");
@@ -71,10 +73,11 @@ describe('tictactoe', () => {
                 assert(markerX.isMatch(markerO));
 
 
-                console.log({playerTic});
+                // console.log({playerTic});
 
                 //TODO make possesses work with isMatch not ===
                 const aimConditionResult3 = aimCondition.checkAgainst(session);
+                console.log("\n");
                 assert(aimConditionResult3 === true, "Players Given Markers");
                 
                 console.log({phase: aGameSimulation._activeSession.activePhase});

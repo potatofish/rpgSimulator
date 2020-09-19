@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "system": "mocha --recursive './test/system/testTicTacToeUI.js'",
-    "unit": "mocha --recursive './test/unit/testGameCondition.js'",
+    "unit": "mocha --recursive './test/unit/testGamePlayer.js'",
     "test": "mocha --recursive './test/unit/*.js'"
   },
   "author": "N.A. Protasivich",
@@ -13,6 +13,7 @@
   "dependencies": {
     "emojis-list": "^3.0.0",
     "emojis-unicode": "^1.0.1",
+    "lodash.isequal": "^4.5.0",
     "mocha": "^8.1.3"
   }
 }

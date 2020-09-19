@@ -2,6 +2,7 @@
 "use strict";
 
 const GameSpace = require("../GameConcepts/GameSpace");
+const { debugLog, increaseNest, decreaseNest } = require("./debugLog");
 
 class GameCondition {
     constructor(aTruthFunction) {
@@ -19,19 +20,29 @@ class GameCondition {
     }
 
     checkAgainst(target) {
-        console.log(`check ${this._conditionFunction.name} against ${target.label}`);
-        console.log(`${target.label} has properties ${Object.getOwnPropertyNames(target)}`);
+        const how = this._conditionFunction.name;
+        const what = target.label;
+        const type = target.constructor.name;
+        const message = `Checking ${how}() against a ${type} called "${what}"`;
+        debugLog(message);
+        increaseNest();
+
+        const properties = Object.getOwnPropertyNames(target);
+        debugLog(`${what} has properties [${properties}]`);
+
 
         if(!(target instanceof GameSpace)) {
             throw new Error(`Target of check is not GameSpace: ${target}`);
         }
-        console.log({GCCheckAgainst: target.label, _conditionFunction: this._conditionFunction});
+        // console.log({GCCheckAgainst: target.label, _conditionFunction: this._conditionFunction});
         let boundConditionFunction = this._conditionFunction.bind(target);
         const result = boundConditionFunction();
-        console.log({GCResult: result});
+        // console.log({GCResult: result});
         if(typeof result !== "boolean") {
             throw new Error('Function does not return a truth value.');
         }
+        decreaseNest();
+        debugLog(`Result: "${result}"`);
 
         return (!(!(result)));
     }
@@ -47,3 +58,4 @@ class GameCondition {
 }
 
 module.exports = GameCondition;
+
