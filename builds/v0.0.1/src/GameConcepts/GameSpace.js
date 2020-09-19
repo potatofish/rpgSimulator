@@ -4,6 +4,8 @@
 
 const GameConcept = require('./GameConcept');
 const GameSpaceManager = require('./util/GameSpaceManager');
+var isEqual = require('lodash.isequal');
+
 
 class GameSpace extends GameConcept {
     constructor(label) {
@@ -108,6 +110,10 @@ class GameSpace extends GameConcept {
         }
         
         return description;
+    }
+
+    isMatch(target) {
+        return isEqual(this, target);
     }
 
     get isMobile() {

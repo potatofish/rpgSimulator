@@ -2,6 +2,8 @@
 "use strict";
 
 const ObjectFactory = require('./ObjectFactory');
+var isEqual = require('lodash.isequal');
+
 
 class ObjectManager {
     constructor() {   
@@ -52,7 +54,8 @@ class ObjectManager {
             //     objectToFind,
             //     truth: (this._managedObjects[key] === objectToFind)
             // });
-            if (this._managedObjects[key] === objectToFind) {
+            
+            if (isEqual(this._managedObjects[key], objectToFind)) {
                 keyList.push(key);
             }
         });

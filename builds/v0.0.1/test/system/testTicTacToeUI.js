@@ -63,7 +63,13 @@ describe('tictactoe', () => {
                 const markerO = new GameSpace("Marker");
                 
                 playerTac.take(markerX);
+                assert(playerTac.possesses(markerX));
                 playerTic.take(markerO);
+                assert(playerTic.possesses(markerO));
+
+                assert(markerX !== markerO)
+                assert(markerX.isMatch(markerO));
+
 
                 console.log({playerTic});
 
@@ -71,6 +77,9 @@ describe('tictactoe', () => {
                 const aimConditionResult3 = aimCondition.checkAgainst(session);
                 assert(aimConditionResult3 === true, "Players Given Markers");
                 
+                console.log({phase: aGameSimulation._activeSession.activePhase});
+                const activePhaseLabel = aGameSimulation._activeSession.activePhase.label;
+                assert(activePhaseLabel === GameSession.PHASES.ACTIVE, `"${activePhaseLabel}" is not Active Play`);
                 
 
                 // const currentPhase = aGameSimulation._activeSession.activePhase.label;
