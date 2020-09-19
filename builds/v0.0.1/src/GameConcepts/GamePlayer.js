@@ -33,6 +33,30 @@ class GamePlayer extends GameSpace {
         let targetKeys = this.managedSpace.keysOf(target);
         return targetKeys !== undefined && targetKeys.length > 0;
     }
+    
+    get inventory() {
+        let inventoryKeys = this.managedSpace.keys;
+        let inventory = {contents: {}, size: 0};
+        inventoryKeys.forEach((key) => {
+            let item = this.managedSpace.atKey(key);
+            if(inventory.contents[item.label] === undefined){
+                inventory.contents[item.label] = [];
+            }
+            inventory.contents[item.label].push(item);
+        });
+        inventory.size = inventoryKeys.length;
+
+        return inventory;
+
+    }
+
+    show(item) {
+        let itemKey = this.managedSpace.strictKeyOf(item);
+    }
+
+    giveUp(item) {
+        let givenUpItem = this.show(item);
+    }
 
     belongsTo(aUser) {
         if(!(aUser instanceof User)) {

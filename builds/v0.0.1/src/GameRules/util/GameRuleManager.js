@@ -37,7 +37,7 @@ class GameRuleManager extends ObjectManager {
         return keyList;
     }
 
-    strictKeysOf(objectToFind) {
+    strictKeyOf(objectToFind) {
         return super.keysOf(objectToFind);
     }
     

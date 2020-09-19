@@ -6,6 +6,7 @@ var isEqual = require('lodash.isequal');
 
 
 class ObjectManager {
+    //TODO add a class argument at creation;
     constructor() {   
         this._managedObjects = {};
         this._keySeedingFunction = Date.now;
@@ -56,6 +57,23 @@ class ObjectManager {
             // });
             
             if (isEqual(this._managedObjects[key], objectToFind)) {
+                keyList.push(key);
+            }
+        });
+        return keyList;
+    }
+
+    strictKeyOf(objectToFind) {
+        let keyList = [];
+        this.keys.forEach((key) => {
+            // console.log({
+            //     key,
+            //     object: this._managedObjects[key],
+            //     objectToFind,
+            //     truth: (this._managedObjects[key] === objectToFind)
+            // });
+            
+            if (this._managedObjects[key] === objectToFind) {
                 keyList.push(key);
             }
         });
