@@ -39,7 +39,7 @@ describe('GamePlayer',  () => {
         }); 
         
     });
-    describe("take() & possesses()", () => {
+    describe("take(), possesses(), & inventory", () => {
         it('A GamePlayer can take items, possessing them in inventory', () => {
             const {user, player, item} = makeTemplateObjects();
             const msgs = {}; 
