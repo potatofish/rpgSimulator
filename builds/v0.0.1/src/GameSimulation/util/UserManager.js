@@ -16,7 +16,7 @@ class UserManager extends ObjectManager {
 
     manage(aUser) {
         if (!(aUser instanceof User)) {
-            throw new Error("UserManager can only manage Users.")
+            throw new Error("UserManager can only manage Users.");
         }
         return super.manage(aUser);
     }

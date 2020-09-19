@@ -3,7 +3,8 @@
 const TEST_TEMPLATES = {
     LABELS: {
         SYSTEM: "Dangons & Drungeons",
-        USER: "Barry Fu"
+        USER: "Barry Fu",
+        ITEM: "Mace of Baking +1"
     }
 };
 

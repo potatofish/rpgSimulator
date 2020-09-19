@@ -69,7 +69,7 @@ describe('tictactoe', () => {
                 playerTic.take(markerO);
                 assert(playerTic.possesses(markerO));
 
-                assert(markerX !== markerO)
+                assert(markerX !== markerO);
                 assert(markerX.isMatch(markerO));
 
 

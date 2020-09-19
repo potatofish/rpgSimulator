@@ -9,7 +9,7 @@ class ObjectManager {
     constructor() {   
         this._managedObjects = {};
         this._keySeedingFunction = Date.now;
-        this._objectFactory = new ObjectFactory()
+        this._objectFactory = new ObjectFactory();
     }
 
     create() {
@@ -19,7 +19,7 @@ class ObjectManager {
     }
 
     manage(object) {
-        let counter = 0
+        let counter = 0;
         let seededKey = this.seed();
         let propertyKey = seededKey + "-" + counter;
         while(this._managedObjects[propertyKey] !== undefined) {
@@ -38,11 +38,11 @@ class ObjectManager {
     release(key) {
         let deletedObject = this._managedObjects[key];
         delete this._managedObjects[key];
-        return deletedObject
+        return deletedObject;
     }
 
     atKey(key) {
-        return this._managedObjects[key]
+        return this._managedObjects[key];
     }
 
     keysOf(objectToFind) {
@@ -65,8 +65,8 @@ class ObjectManager {
     get list() {
         let keyObjectPairs = {};
         this.keys.forEach((key) => {
-            keyObjectPairs[key] = this._managedObjects[key]
-        })
+            keyObjectPairs[key] = this._managedObjects[key];
+        });
         return keyObjectPairs;
     }
 
@@ -84,14 +84,14 @@ class ObjectManager {
 
     set seed(seeder) {
         if (typeof seeder !== "function") {
-            throw "argument is not function"
+            throw "argument is not function";
         }
         //console.log("setseeder: %s", seeder);
         this._keySeedingFunction = seeder;
     }
 
     seed() {
-        return `${this._keySeedingFunction()}`
+        return `${this._keySeedingFunction()}`;
     }
 }
 

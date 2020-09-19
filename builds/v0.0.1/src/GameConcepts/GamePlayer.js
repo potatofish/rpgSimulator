@@ -7,7 +7,7 @@ const User = require('../GameSimulation/User');
 class GamePlayer extends GameSpace {
     constructor(aUser, aName) {
         if (!(aUser instanceof User)) {
-            throw new Error("GamePlayers require a User")
+            throw new Error("GamePlayers require a User");
         } 
         let playerName = aName;
         if(aName === undefined) { 
