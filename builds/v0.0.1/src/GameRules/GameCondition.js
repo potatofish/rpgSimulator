@@ -19,7 +19,7 @@ class GameCondition {
     }
 
     checkAgainst(target) {
-        console.log(`check ${this._conditionFunction.name} against ${target}`);
+        console.log(`check ${this._conditionFunction.name} against ${target.label}`);
         console.log(`${target.label} has properties ${Object.getOwnPropertyNames(target)}`);
 
         if(!(target instanceof GameSpace)) {

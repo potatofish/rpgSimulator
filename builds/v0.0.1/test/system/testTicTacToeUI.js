@@ -11,6 +11,8 @@ const tta = require("./ticTacToeAims");
 const GameSimulation = require('../../src/GameSimulation/GameSimulation.js');
 const GameSystem = require('../../src/GameRules/GameSystem.js');
 const GameSession = require('../../src/GameConcepts/GameSession.js');
+const GamePlayer = require('../../src/GameConcepts/GamePlayer.js');
+const GameSpace = require('../../src/GameConcepts/GameSpace.js');
 
 
 
@@ -43,10 +45,33 @@ describe('tictactoe', () => {
                 const session = startActivePlaySim._activeSession;
                 assert(session instanceof GameSession);
 
-
-
                 const aimCondition = startActivePlayAim.condition;
                 const aimConditionResult = aimCondition.checkAgainst(session);
+                
+                assert(aimConditionResult === false, "Players Not Yet Added");
+
+                const userTic = new User("Tic");
+                const userTac = new User("Tac");
+                
+                const playerTac = aGameSimulation.join(userTac);
+                const playerTic = aGameSimulation.join(userTic);
+
+                const aimConditionResult2 = aimCondition.checkAgainst(session);
+                assert(aimConditionResult2 === false, "Players Not Given Markers");
+                
+                const markerX = new GameSpace("Marker");
+                const markerO = new GameSpace("Marker");
+                
+                playerTac.take(markerX);
+                playerTic.take(markerO);
+
+                console.log({playerTic});
+
+                //TODO make possesses work with isMatch not ===
+                const aimConditionResult3 = aimCondition.checkAgainst(session);
+                assert(aimConditionResult3 === true, "Players Given Markers");
+                
+                
 
                 // const currentPhase = aGameSimulation._activeSession.activePhase.label;
                 // //console.log({currentPhase});

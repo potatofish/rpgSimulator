@@ -78,16 +78,23 @@ const hasEnoughPlayersInSetup = function (neededPlayers) {
 };
 
 const forEachPlayer = function(checkCondition) {
+    
     const allPlayersChecked = function () {
+        console.log({"allPlayersChecked:": checkCondition});
         if(!(this instanceof GameSession)) {
             throw new Error(`'forEachPlayer is applied across a GameSession, this is: ${this}'`);
         }
     
         const listOfPlayerKeys = this.players;
         let trueForEach = true;
-    
+
+        console.log({listOfPlayerKeys});
+        // no players always will return a false
+        trueForEach = trueForEach && (listOfPlayerKeys.length !== 0);
+
         listOfPlayerKeys.forEach(playerKey => {
-            const player = this.getKey(playerKey);
+            const player = this.retrieve(playerKey);
+            console.log(`${playerKey}, "${player.label}", (${Object.getOwnPropertyNames(player)})`);
             trueForEach = trueForEach && checkCondition.checkAgainst(player);
         });
     

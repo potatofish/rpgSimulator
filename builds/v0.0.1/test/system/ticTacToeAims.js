@@ -5,6 +5,8 @@ const GameSession = require('../../src/GameConcepts/GameSession.js');
 const GameAim = require('../../src/GameRules/GameAim.js');
 const GameCondition = require('../../src/GameRules/GameCondition.js');
 const GameSimulation = require('../../src/GameSimulation/GameSimulation.js');
+const GameSpace = require('../../src/GameConcepts/GameSpace.js');
+
 
 // Active Play begins when 
 //  - currently in setup phase
@@ -23,7 +25,7 @@ function aimTostartActivePlay() {
 }
 
 function twoPlayersWithMarkersInSetup() {
-    const GameState = require('../../src/GameConcepts/GameState.js');
+    const GameSpace = require('../../src/GameConcepts/GameSpace.js');
     const GameSimulation = require('../../src/GameSimulation/GameSimulation.js');
     const GamePlayer = require('../../src/GameConcepts/GamePlayer.js');
 
@@ -33,15 +35,23 @@ function twoPlayersWithMarkersInSetup() {
     const enoughPlayersInSetupCondition = ctf.hasEnoughPlayersInSetup(2);
     const enoughPlayersInSetup = enoughPlayersInSetupCondition.checkAgainst(this);
     
-    const playerHasMarker = new GameCondition((player) => {
-        if(!(player instanceof GamePlayer)) {
-            throw new Error('errorMessage');
+
+    //TODO stop using quick formatting =>
+    const checkPossessMarker = function () {
+        console.log({ checkPossessMarker: this.label });
+        if (!(this instanceof GamePlayer)) {
+            throw new Error("this isn't a GamePlayer");
         }
-        const aMarker = new GameState("Marker");
-        return player.posesses(aMarker);
-    });
+        const aMarker = new GameSpace("Marker");
+        return this.possesses(aMarker);
+        //return false;
+    };
+
+    const playerHasMarker = new GameCondition(checkPossessMarker);
 
     const forEachPlayerCondition = ctf.forEachPlayer(playerHasMarker);
+    console.log({forEachPlayerCondition});
+
     const trueForAllPlayers = forEachPlayerCondition.checkAgainst(this);
     return enoughPlayersInSetup && trueForAllPlayers;
 };

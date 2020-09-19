@@ -15,6 +15,17 @@ class GamePlayer extends GameSpace {
     get name() {
         return this.label;
     }
+
+    // TODO make possessions a specific subset of players' managed space
+    take(target) {
+        return this.contain(target);
+    }
+
+    possesses(target) {
+        // TODO redo this with matching keysof
+        let targetKeys = this.managedSpace.keysOf(target);
+        return targetKeys !== undefined && targetKeys.length > 0;
+    }
 }
 
 module.exports = GamePlayer;
