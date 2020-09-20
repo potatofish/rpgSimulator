@@ -18,11 +18,11 @@ const GameState = require('../../../src/GameConcepts/GameState.js');
 function testChangeActivePhaseByRule(done) {
     const atf = GameSimulation.TEMPLATES.ACTIONS;
     let activePlayLabel = GameSession.PHASES.ACTIVE;
-    let changePhaseToActivePlayAction = atf.getChangePhaseAction(activePlayLabel);
+    let changePhaseToActivePlayAction = atf.changePhaseAction(activePlayLabel);
     assert(changePhaseToActivePlayAction instanceof GameAction);
     
     const ctf = GameSimulation.TEMPLATES.CONDITIONS;
-    const enoughPlayersInSetupCondition = ctf.enoughPlayersInSetup(1);
+    const enoughPlayersInSetupCondition = ctf.hasEnoughPlayersInSetup(1);
     assert(enoughPlayersInSetupCondition instanceof GameCondition);
     
     const changeToActiveWhenEnoughAim = new GameAim(changePhaseToActivePlayAction, enoughPlayersInSetupCondition);

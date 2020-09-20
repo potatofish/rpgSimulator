@@ -22,7 +22,7 @@ mapForPHASES[PHASES.COMPLETE] = {previous: PHASES.CLEANUP};
 //console.log({mapForPHASES: mapForPHASES});
 
 class GameSession extends GameSpace {
-    //TODO remove GameSystem from the constructor
+    //TODO MAYBE - remove GameSystem from the constructor
     constructor(aGameSystem) {
         if (!(aGameSystem instanceof GameSystem)) {
             throw new Error("Sessions require a GameSystem of rules to play.");

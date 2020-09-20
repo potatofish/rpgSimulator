@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "system": "mocha --recursive './test/system/testTicTacToeUI.js'",
-    "unit": "mocha --recursive './test/unit/testGamePlayer.js'",
+    "unit": "mocha --recursive './test/unit/testGameSimulation.js'",
     "test": "mocha --recursive './test/unit/*.js'"
   },
   "author": "N.A. Protasivich",

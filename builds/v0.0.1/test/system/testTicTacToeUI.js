@@ -75,7 +75,6 @@ describe('tictactoe', () => {
 
                 // console.log({playerTic});
 
-                //TODO make possesses work with isMatch not ===
                 const aimConditionResult3 = aimCondition.checkAgainst(session);
                 console.log("\n");
                 assert(aimConditionResult3 === true, "Players Given Markers");

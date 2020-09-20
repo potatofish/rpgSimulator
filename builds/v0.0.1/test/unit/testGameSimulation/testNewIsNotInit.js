@@ -5,10 +5,14 @@ const assert = require('assert');
 const GameSimulation = require('../../../src/GameSimulation/GameSimulation.js');
 
 const testNewIsNotInit = () => {
+    let msgs = {};
     const aGameSimulation = new GameSimulation();
-    const earlyInitMessage = "isInitialized w/o init()";
-    assert(!(aGameSimulation.isInitialized), earlyInitMessage);
+    msgs.earlyInit = "Simulation isInitialized w/o starting a session.";
+    assert(!(aGameSimulation.isInitialized), msgs.earlyInit);
     
-    //TODO assert that a session cannot be started cause there's no rules to init with
+    // session cannot be started cause there's no rules to init with
+    msgs.startedWithout = "No error when starting Simulation w/o a GameSystem";
+    const validProperties = { message: "No game system defined" };
+    assert.throws((()=>{aGameSimulation.startSession();}), validProperties);
 };
 exports.testNewIsNotInit = testNewIsNotInit;

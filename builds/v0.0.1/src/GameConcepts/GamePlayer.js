@@ -29,7 +29,6 @@ class GamePlayer extends GameSpace {
     }
 
     possesses(target) {
-        // TODO redo this with matching keysof
         let targetKeys = this.managedSpace.keysOf(target);
         return targetKeys !== undefined && targetKeys.length > 0;
     }
